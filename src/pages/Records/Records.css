@@ -1,0 +1,133 @@
+.records-list {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--gap-default);
+  margin: 0 20px;
+}
+
+.record {
+  padding-top: 10px;
+  height: 105px;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-default);
+  border-radius: var(--border-radius-default);
+}
+
+.record-text {
+  margin: 3px 10px 0 10px;
+  display: flex;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-light);
+  color: var(--text-color-secondary);
+  align-items: center;
+}
+
+.record-container {
+  display: flex;
+  margin: 0 10px;
+}
+
+.record-value {
+  letter-spacing: 2px;
+  width: 80%;
+  display: block;
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color-primary);
+}
+
+.record-btn--delete {
+  margin-top: 10px;
+  font-size: 24px;
+  color: var(--background-color-button);
+}
+
+.record-btn--delete:hover {
+  color: var(--background-color-button-hover);
+  cursor: pointer;
+}
+
+.record-line {
+  border: none;
+  margin: 0 10px;
+  border-top: 1px solid var(--text-color-secondary);
+}
+
+.record-btn--edit {
+  margin: 8px 4px;
+  font-size: 28px;
+  color: var(--background-color-button);
+}
+
+.record-btn--edit:hover {
+  color: var(--background-color-button-hover);
+  cursor: pointer;
+}
+
+.image-container {
+  margin: auto;
+  background-image: url('../../../public/empty.png');
+  width: 128px;
+  height: 128px;
+}
+
+.page-size-select {
+  color: var(--text-color-primary);
+  border-radius: var(--border-radius-default);
+  padding: 10px;
+  font-size: var(--font-weight-default);
+  border: 1px solid var(--border-color-input);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-default);
+  margin-left: 10px;
+}
+
+.page-size-select:hover {
+  cursor: pointer;
+  border: 1px solid var(--border-color-input-active);
+}
+
+.page-size-select:focus-visible {
+  outline: none;
+}
+
+.page-size-select:focus {
+  outline: 2px solid var(--border-color-input-active);
+}
+
+.pagination-container {
+  display: flex;
+  margin: 30px 0 30px 20px;
+}
+
+.pagination-page-size {
+  align-items: center;
+  min-width: 35%;
+  display: flex;
+}
+
+.page-size-select-label {
+  font-weight: var(--font-weight-light);
+  color: var(--text-color-primary);
+}
+
+.record--income {
+  background-color: #e1e8cc;
+}
+
+.record--expense {
+  background-color: #f8e4e3;
+}
+
+.record-icon-type {
+  width: 30px;
+  height: 30px;
+  margin-left: -4px;
+}
+
+.record-type-text {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color-secondary);
+}

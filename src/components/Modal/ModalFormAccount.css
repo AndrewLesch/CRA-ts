@@ -1,0 +1,40 @@
+.modal-account-body {
+  width: 400px;
+  background: var(--background-color-secondary);
+  height: 300px;
+  border-radius: var(--border-radius-default);
+}
+
+.accounts-inputs-container {
+  display: grid;
+  grid-template-columns: 1fr 2.5fr;
+  gap: var(--gap-default);
+  width: 90%;
+  margin-left: 5%;
+}
+
+.account-name-input {
+  border: 1px solid var(--border-color-input);
+  box-sizing: border-box;
+  width: 90%;
+  height: 50px;
+  font-size: var(--font-size-default);
+  margin: 10px 0 0 5%;
+  border-radius: var(--border-radius-default);
+  padding: 10px;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-default);
+  color: var(--text-color-primary);
+}
+
+.account-name-input:hover {
+  border: 1px solid var(--border-color-input-active);
+}
+
+.account-name-input:focus-visible {
+  outline: none;
+}
+
+.account-name-input:focus {
+  outline: 2px solid var(--border-color-input-active);
+}

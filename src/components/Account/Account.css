@@ -1,0 +1,46 @@
+.account {
+  height: 80px;
+  border-radius: var(--border-radius-default);
+}
+
+.header-account-title {
+  margin: 10px;
+  font-size: var(--font-size-default);
+  color: var(--text-color-primary);
+  font-weight: var(--font-weight-bold);
+  width: 80%;
+}
+
+.account-container {
+  display: flex;
+  height: 50px;
+}
+
+.account-currency-symbol {
+  font-size: 18px;
+  color: var(--text-color-secondary);
+  margin: 10px;
+  font-weight: var(--font-weight-default);
+}
+
+.account-btn--delete {
+  margin: 14px 2.5% 0 0;
+  font-size: var(--font-size-default);
+  color: var(--background-color-button);
+}
+
+.account-btn--delete:hover {
+  color: var(--background-color-button-hover);
+  cursor: pointer;
+}
+
+.account-btn--edit {
+  margin: 12px 4px;
+  font-size: 27px;
+  color: var(--background-color-button);
+}
+
+.account-btn--edit:hover {
+  color: var(--background-color-button-hover);
+  cursor: pointer;
+}

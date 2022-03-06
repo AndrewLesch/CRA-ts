@@ -1,0 +1,22 @@
+.color-container {
+  display: flex;
+  margin-left: 5%;
+}
+
+.color-button {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  margin: 10px 8px 0 0;
+  border: none;
+}
+
+.color-button:hover {
+  outline: 2px solid var(--border-color-color-picker);
+  cursor: pointer;
+}
+
+.color-button--selected {
+  outline: 2px solid var(--border-color-color-picker);
+  cursor: pointer;
+}
