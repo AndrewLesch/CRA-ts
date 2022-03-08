@@ -61,7 +61,6 @@ const App = () => {
     } else {
       setUser('');
     }
-    т;
   });
 
   if (user) {
