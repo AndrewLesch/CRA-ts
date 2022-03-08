@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
@@ -13,6 +13,8 @@ import { useRecordsAppState } from './hooks/useAppRecordsState';
 import { LS_ACCOUNTS_KEY } from '../../сonstants';
 import { AccountDto, RecordDto } from '../../model';
 import { AppContextType } from '../../model';
+import { auth, SignInWithGoogle, SignOut, database } from '../../firebase';
+import { ref, onValue } from 'firebase/database';
 
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -48,6 +50,27 @@ const App = () => {
     removeRecord,
     onSubmitRecord,
   } = useRecordsAppState();
+
+  const [user, setUser] = useState<any>({});
+  const [accountsFromFirebase, setAccountsFromFirebase] = useState([]);
+
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      console.log(user);
+      setUser(user);
+    } else {
+      setUser('');
+    }
+    т;
+  });
+
+  if (user) {
+    const path = ref(database, `${user.uid}`);
+    onValue(path, (accounts) => {
+      const data = accounts.val();
+      setAccountsFromFirebase(data);
+    });
+  }
 
   const removeAccountById = (accountId: string): void => {
     removeAccount(accountId);
@@ -98,7 +121,26 @@ const App = () => {
     >
       <div className="container">
         <div className="header-accounts-container">
-          <h2 className="header-app-logo">Wallet App Calc</h2>
+          <div className="header-autorization-container">
+            <h2 className="header-app-logo">Wallet App Calc</h2>
+            <div className="autourization-container__buttons">
+              <h4 className="header-user-name">
+                {user ? user.displayName : ''}
+              </h4>
+              {!user ? (
+                <button
+                  onClick={SignInWithGoogle}
+                  className="autourization-button"
+                >
+                  Вход
+                </button>
+              ) : (
+                <button className="autourization-button" onClick={SignOut}>
+                  Выход
+                </button>
+              )}
+            </div>
+          </div>
           <ul className="header-accounts-list">
             {accounts.map((account) => (
               <Account

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { LS_ACCOUNTS_KEY } from '../../../сonstants';
 import { changeDocumentTitle } from '../../../utils';
 import { AccountDto } from '../../../model';
+import { SaveAccountToDataBase } from '../../../firebase';
 
 type UseAccountsAppStateHookType = {
   accounts: Array<AccountDto>;
@@ -48,6 +49,7 @@ export const useAccountsAppState = (): UseAccountsAppStateHookType => {
   const updateAccounts = (accounts: Array<AccountDto>): void => {
     setAccounts(accounts);
     localStorage.setItem(LS_ACCOUNTS_KEY, JSON.stringify(accounts));
+    SaveAccountToDataBase(accounts);
   };
 
   const onEditAccount = (account: AccountDto): void => {

@@ -40,22 +40,14 @@ export const recordTypes: {
 } = {
   [RecordType.Income]: {
     icon: (
-      <img
-        src="income.png"
-        className="record-icon-type"
-        alt="Income icon"
-      />
+      <img src="income.png" className="record-icon-type" alt="Income icon" />
     ),
     value: RecordType.Income,
     label: 'Доходы',
   },
   [RecordType.Expense]: {
     icon: (
-      <img
-        src="expense.png"
-        className="record-icon-type"
-        alt="Expense icon"
-      />
+      <img src="expense.png" className="record-icon-type" alt="Expense icon" />
     ),
     value: RecordType.Expense,
     label: 'Расходы',
