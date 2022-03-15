@@ -13,7 +13,7 @@ import { useAccountsAppState } from './hooks/useAppAccountsState';
 import { useRecordsAppState } from './hooks/useAppRecordsState';
 import { AccountDto, RecordDto } from '../../model';
 import { AppContextType } from '../../model';
-import { auth, SignInWithGoogle, SignOut } from '../../firebase';
+import { auth } from '../../firebase';
 import { User } from 'firebase/auth';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,10 +25,13 @@ const App = () => {
   const [user, setUser] = useState<User>(null);
 
   auth.onAuthStateChanged((user: User) => {
+    // лоадth
     if (user) {
       setUser(user);
+      // убираем лоадэр сетаем юзера
     } else {
       setUser(null);
+      // убираем лоадер чилим
     }
   });
 
@@ -112,18 +115,6 @@ const App = () => {
               <h4 className="header-user-name">
                 {user ? user.displayName : ''}
               </h4>
-              {!user ? (
-                <button
-                  onClick={SignInWithGoogle}
-                  className="autourization-button"
-                >
-                  Вход
-                </button>
-              ) : (
-                <button className="autourization-button" onClick={SignOut}>
-                  Выход
-                </button>
-              )}
             </div>
           </div>
           <ul className="header-accounts-list">

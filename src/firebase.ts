@@ -43,7 +43,7 @@ export const SaveDataToFireBase = (
   data: Array<AccountDto> | Array<RecordDto>,
   dataPath: string
 ) => {
-  console.log(data);
+  // тут тоже лоадер
   set(ref(database, `users/${auth.currentUser.uid}/${dataPath}`), {
     ...data,
   });

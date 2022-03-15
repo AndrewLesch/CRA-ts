@@ -1,0 +1,30 @@
+.authorization-button {
+  cursor: pointer;
+  text-decoration: none;
+  padding: 50px 50px;
+  position: relative;
+  color: var(--text-color-button);
+  border-radius: var(--border-radius-default);
+  border: 1px solid var(--background-color-button-add);
+  font-size: var(--font-size-default);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 1px;
+  margin-top: 200px;
+  background-color: var(--background-color-button-add);
+  font-family: var(--font-family-primary);
+}
+
+.authorization-text {
+  font-size: var(--font-size-x-large);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color-primary);
+  font-family: var(--font-family-primary);
+}
+
+.authorization-container {
+  min-height: 100vh - 5vh;
+  width: 80%;
+  margin-left: 10%;
+  text-align: center;
+  margin-top: 5vh;
+}

@@ -145,25 +145,6 @@ body {
   width: 65%;
 }
 
-.autourization-button {
-  cursor: pointer;
-  text-decoration: none;
-  padding: 10px 12px;
-  position: relative;
-  color: var(--text-color-button);
-  border-radius: var(--border-radius-default);
-  border: 1px solid var(--background-color-button-add);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 1px;
-  background-color: var(--background-color-button-add);
-  font-family: var(--font-family-primary);
-}
-
-.autourization-button:hover {
-  background-color: var(--background-color-button-add-hover);
-}
-
 .header-user-name {
   margin-right: 10px;
 }
