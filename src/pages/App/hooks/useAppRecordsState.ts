@@ -1,7 +1,16 @@
 import { useEffect, useState } from 'react';
+import { SaveDataToFireBase } from '../../../firebase';
 import { AccountDto, RecordDto } from '../../../model.js';
 import { changeDocumentTitle } from '../../../utils';
-import { LS_RECORDS_KEY, recordTypes } from '../../../сonstants';
+import { recordTypes } from '../../../сonstants';
+import { database } from '../../../firebase';
+import {
+  ref,
+  onValue,
+  DataSnapshot,
+  DatabaseReference,
+} from 'firebase/database';
+import { User } from 'firebase/auth';
 
 type UseRecordsAppStateHookType = {
   records: Array<RecordDto>;
@@ -14,10 +23,7 @@ type UseRecordsAppStateHookType = {
   updateRecords(records: Array<RecordDto>): void;
   openRecordModal(): void;
   onEditRecord(record: RecordDto): void;
-  removeRecord(
-    record: RecordDto,
-    accounts: Array<AccountDto>
-  ): Array<AccountDto>;
+  removeRecord(record: RecordDto, accounts: Array<AccountDto>): void;
   onSubmitRecord(
     recordFormData: RecordDto,
     accounts: Array<AccountDto>,
@@ -25,24 +31,32 @@ type UseRecordsAppStateHookType = {
   ): Array<AccountDto>;
 };
 
-export const useRecordsAppState = (): UseRecordsAppStateHookType => {
+export const useRecordsAppState = (user: User): UseRecordsAppStateHookType => {
   const [records, setRecords] = useState<Array<RecordDto>>([]);
   const [editedRecord, setEditedRecord] = useState<RecordDto>(null);
   const [recordModalIsOpen, setRecordModalIsOpen] = useState<boolean>(false);
   const [isEditingRecord, setIsEditingRecord] = useState<boolean>(false);
 
   useEffect(() => {
-    const existingRecords: Array<RecordDto> = JSON.parse(
-      localStorage.getItem(LS_RECORDS_KEY)
-    );
-    if (existingRecords) {
-      setRecords(existingRecords);
+    if (user) {
+      const path: DatabaseReference = ref(
+        database,
+        `users/${user.uid}/records`
+      );
+      onValue(path, (snapshot: DataSnapshot): void => {
+        const recordsFromFirebase: Array<RecordDto> = snapshot.val();
+        if (recordsFromFirebase) {
+          setRecords(recordsFromFirebase);
+        }
+      });
+    } else {
+      setRecords([]);
     }
-  }, []);
+  }, [user]);
 
   const updateRecords = (records: Array<RecordDto>): void => {
     setRecords(records);
-    localStorage.setItem(LS_RECORDS_KEY, JSON.stringify(records));
+    SaveDataToFireBase(records, 'records');
   };
 
   const onEditRecord = (record: RecordDto): void => {
@@ -60,7 +74,7 @@ export const useRecordsAppState = (): UseRecordsAppStateHookType => {
   const removeRecord = (
     record: RecordDto,
     accounts: Array<AccountDto>
-  ): Array<AccountDto> => {
+  ): void => {
     const currentAccIndex: number = accounts.findIndex(
       ({ id }) => id === record.accountId
     );
@@ -80,7 +94,6 @@ export const useRecordsAppState = (): UseRecordsAppStateHookType => {
     currentRecords.splice(deleteRecordIndex, 1);
     updateRecords(currentRecords);
     setIsEditingRecord(false);
-    return [...accounts];
   };
 
   const onSubmitRecord = (

@@ -1,8 +1,14 @@
 import { useEffect, useState } from 'react';
-import { LS_ACCOUNTS_KEY } from '../../../сonstants';
 import { changeDocumentTitle } from '../../../utils';
 import { AccountDto } from '../../../model';
-import { SaveAccountToDataBase } from '../../../firebase';
+import { SaveDataToFireBase, database } from '../../../firebase';
+import {
+  ref,
+  onValue,
+  DataSnapshot,
+  DatabaseReference,
+} from 'firebase/database';
+import { User } from 'firebase/auth';
 
 type UseAccountsAppStateHookType = {
   accounts: Array<AccountDto>;
@@ -20,26 +26,30 @@ type UseAccountsAppStateHookType = {
   setEditedAccount(editedAccount: AccountDto): void;
 };
 
-export const useAccountsAppState = (): UseAccountsAppStateHookType => {
+export const useAccountsAppState = (
+  user: User
+): UseAccountsAppStateHookType => {
   const [accounts, setAccounts] = useState<Array<AccountDto>>([]);
   const [editedAccount, setEditedAccount] = useState<AccountDto>(null);
   const [accountModalIsOpen, setAccountModalIsOpen] = useState<boolean>(false);
   const [isEditingAccount, setIsEditingAccount] = useState<boolean>(false);
 
   useEffect(() => {
-    const existingAccounts: Array<AccountDto> = JSON.parse(
-      localStorage.getItem(LS_ACCOUNTS_KEY)
-    );
-
-    if (existingAccounts) {
-      setAccounts(existingAccounts);
-      if (existingAccounts.length === 0) {
-        openAccountModal();
-      }
+    if (user) {
+      const path: DatabaseReference = ref(
+        database,
+        `users/${user.uid}/accounts`
+      );
+      onValue(path, (snapshot: DataSnapshot): void => {
+        const accountsFromFirebase: Array<AccountDto> = snapshot.val();
+        if (accountsFromFirebase) {
+          setAccounts(accountsFromFirebase);
+        }
+      });
     } else {
-      openAccountModal();
+      setAccounts([]);
     }
-  }, []);
+  }, [user]);
 
   const openAccountModal = (): void => {
     setAccountModalIsOpen(true);
@@ -48,8 +58,7 @@ export const useAccountsAppState = (): UseAccountsAppStateHookType => {
 
   const updateAccounts = (accounts: Array<AccountDto>): void => {
     setAccounts(accounts);
-    localStorage.setItem(LS_ACCOUNTS_KEY, JSON.stringify(accounts));
-    SaveAccountToDataBase(accounts);
+    SaveDataToFireBase(accounts, 'accounts');
   };
 
   const onEditAccount = (account: AccountDto): void => {

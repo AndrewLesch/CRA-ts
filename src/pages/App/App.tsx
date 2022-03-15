@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import Records from '../Records/Records';
 import Account from '../../components/Account/Account';
 import Statistics from '../Statistics/Statistics';
+import Authorization from '../Authorization/Authorization';
 import ModalFormRecord from '../../components/Modal/ModalFormRecord';
 import ModalFormAccount from '../../components/Modal/ModalFormAccount';
 import NotificationService from '../../services/NotificationService';
 import { useAccountsAppState } from './hooks/useAppAccountsState';
 import { useRecordsAppState } from './hooks/useAppRecordsState';
-import { LS_ACCOUNTS_KEY } from '../../сonstants';
 import { AccountDto, RecordDto } from '../../model';
 import { AppContextType } from '../../model';
-import { auth, SignInWithGoogle, SignOut, database } from '../../firebase';
-import { ref, onValue } from 'firebase/database';
+import { auth, SignInWithGoogle, SignOut } from '../../firebase';
+import { User } from 'firebase/auth';
 
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -22,6 +22,16 @@ import './App.css';
 export const Context = React.createContext<AppContextType>(null);
 
 const App = () => {
+  const [user, setUser] = useState<User>(null);
+
+  auth.onAuthStateChanged((user: User) => {
+    if (user) {
+      setUser(user);
+    } else {
+      setUser(null);
+    }
+  });
+
   const {
     accounts,
     editedAccount,
@@ -35,7 +45,7 @@ const App = () => {
     removeAccount,
     onSubmitAccount,
     updateAccounts,
-  } = useAccountsAppState();
+  } = useAccountsAppState(user);
 
   const {
     records,
@@ -49,27 +59,7 @@ const App = () => {
     openRecordModal,
     removeRecord,
     onSubmitRecord,
-  } = useRecordsAppState();
-
-  const [user, setUser] = useState<any>({});
-  const [accountsFromFirebase, setAccountsFromFirebase] = useState([]);
-
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      console.log(user);
-      setUser(user);
-    } else {
-      setUser('');
-    }
-  });
-
-  if (user) {
-    const path = ref(database, `${user.uid}`);
-    onValue(path, (accounts) => {
-      const data = accounts.val();
-      setAccountsFromFirebase(data);
-    });
-  }
+  } = useRecordsAppState(user);
 
   const removeAccountById = (accountId: string): void => {
     removeAccount(accountId);
@@ -84,11 +74,7 @@ const App = () => {
   };
 
   const removeRecordWrapper = (record: RecordDto): void => {
-    const nextAccounts: Array<AccountDto> = removeRecord(record, accounts);
-
-    if (nextAccounts) {
-      localStorage.setItem(LS_ACCOUNTS_KEY, JSON.stringify(accounts));
-    }
+    removeRecord(record, accounts);
   };
 
   const onSubmitRecordWrapper = (recordFormData: RecordDto): void => {
@@ -111,7 +97,7 @@ const App = () => {
     }
   };
 
-  return (
+  return user ? (
     <Context.Provider
       value={{
         onRemoveRecord: removeRecordWrapper,
@@ -201,6 +187,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Records records={records} />} />
           <Route path="/statistics" element={<Statistics />} />
+          <Route path="/authorization" element={<Navigate to="/" />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
 
@@ -216,6 +204,13 @@ const App = () => {
         pauseOnHover
       />
     </Context.Provider>
+  ) : (
+    <Routes>
+      <Route path="/" element={<Navigate to="/authorization" />} />
+      <Route path="/statistics" element={<Navigate to="/authorization" />} />
+      <Route path="/authorization" element={<Authorization />} />
+      <Route path="*" element={<Navigate to="/authorization" />} />
+    </Routes>
   );
 };
 

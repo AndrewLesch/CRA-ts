@@ -7,8 +7,8 @@ import {
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
-import { getDatabase, ref, set, onValue } from 'firebase/database';
-import { AccountDto } from './model';
+import { getDatabase, ref, set } from 'firebase/database';
+import { AccountDto, RecordDto } from './model';
 
 // Initialize Firebase
 const app = initializeApp({
@@ -22,9 +22,10 @@ const app = initializeApp({
 });
 
 export const auth = getAuth(app);
-setPersistence(auth, browserSessionPersistence);
-
+export const database = getDatabase(app);
 const provider = new GoogleAuthProvider();
+
+setPersistence(auth, browserSessionPersistence);
 
 export const SignInWithGoogle = () => {
   signInWithPopup(auth, provider)
@@ -37,10 +38,13 @@ export const SignInWithGoogle = () => {
 export const SignOut = () => {
   signOut(auth).then(() => {});
 };
-export const database = getDatabase(app);
 
-export const SaveAccountToDataBase = (accounts: Array<AccountDto>) => {
-  set(ref(database, `${auth.currentUser.uid}`), {
-    accounts,
+export const SaveDataToFireBase = (
+  data: Array<AccountDto> | Array<RecordDto>,
+  dataPath: string
+) => {
+  console.log(data);
+  set(ref(database, `users/${auth.currentUser.uid}/${dataPath}`), {
+    ...data,
   });
 };

@@ -105,6 +105,3 @@ export const expenseCategories: {
 };
 
 export const NumberOfRecordsOnPage: Array<number> = [5, 10, 15, 20];
-
-export const LS_ACCOUNTS_KEY: string = 'accounts';
-export const LS_RECORDS_KEY: string = 'records';
