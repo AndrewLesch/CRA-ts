@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { SaveDataToFireBase } from '../../../firebase';
 import { AccountDto, RecordDto } from '../../../model.js';
 import { changeDocumentTitle } from '../../../utils';
 import { recordTypes } from '../../../сonstants';
@@ -11,6 +10,7 @@ import {
   DatabaseReference,
 } from 'firebase/database';
 import { User } from 'firebase/auth';
+import { RecordsApi } from '../../../Api/RecordsApi';
 
 type UseRecordsAppStateHookType = {
   records: Array<RecordDto>;
@@ -56,7 +56,7 @@ export const useRecordsAppState = (user: User): UseRecordsAppStateHookType => {
 
   const updateRecords = (records: Array<RecordDto>): void => {
     setRecords(records);
-    SaveDataToFireBase(records, 'records');
+    RecordsApi.createRecords(records, 'records');
   };
 
   const onEditRecord = (record: RecordDto): void => {

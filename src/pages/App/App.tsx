@@ -13,7 +13,7 @@ import { useAccountsAppState } from './hooks/useAppAccountsState';
 import { useRecordsAppState } from './hooks/useAppRecordsState';
 import { AccountDto, RecordDto } from '../../model';
 import { AppContextType } from '../../model';
-import { auth } from '../../firebase';
+import { auth, SignOut } from '../../firebase';
 import { User } from 'firebase/auth';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -115,6 +115,9 @@ const App = () => {
               <h4 className="header-user-name">
                 {user ? user.displayName : ''}
               </h4>
+              <button className="primary-button" onClick={SignOut}>
+                Выйти
+              </button>
             </div>
           </div>
           <ul className="header-accounts-list">
@@ -178,7 +181,6 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Records records={records} />} />
           <Route path="/statistics" element={<Statistics />} />
-          <Route path="/authorization" element={<Navigate to="/" />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
@@ -197,8 +199,6 @@ const App = () => {
     </Context.Provider>
   ) : (
     <Routes>
-      <Route path="/" element={<Navigate to="/authorization" />} />
-      <Route path="/statistics" element={<Navigate to="/authorization" />} />
       <Route path="/authorization" element={<Authorization />} />
       <Route path="*" element={<Navigate to="/authorization" />} />
     </Routes>

@@ -38,13 +38,3 @@ export const SignInWithGoogle = () => {
 export const SignOut = () => {
   signOut(auth).then(() => {});
 };
-
-export const SaveDataToFireBase = (
-  data: Array<AccountDto> | Array<RecordDto>,
-  dataPath: string
-) => {
-  // тут тоже лоадер
-  set(ref(database, `users/${auth.currentUser.uid}/${dataPath}`), {
-    ...data,
-  });
-};

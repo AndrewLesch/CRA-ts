@@ -4,13 +4,15 @@ import './Authorization.css';
 
 const Authorization: React.FC = () => {
   return (
-    <div className="authorization-container">
-      <h1 className="authorization-text">
-        Авторизация при помощи аккаунта Google
-      </h1>
-      <button className="authorization-button" onClick={SignInWithGoogle}>
-        Войти/Зарегестрироваться
-      </button>
+    <div className="container1">
+      <div className="authorization-container">
+        <h1 className="authorization-text">
+          Авторизация при помощи аккаунта Google
+        </h1>
+        <button className="authorization-button" onClick={SignInWithGoogle}>
+          Войти/Зарегестрироваться
+        </button>
+      </div>
     </div>
   );
 };

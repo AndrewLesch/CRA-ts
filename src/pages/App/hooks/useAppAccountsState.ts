@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { changeDocumentTitle } from '../../../utils';
 import { AccountDto } from '../../../model';
-import { SaveDataToFireBase, database } from '../../../firebase';
+import { database } from '../../../firebase';
 import {
   ref,
   onValue,
@@ -9,6 +9,7 @@ import {
   DatabaseReference,
 } from 'firebase/database';
 import { User } from 'firebase/auth';
+import { AccountsApi } from '../../../Api/AccountsApi';
 
 type UseAccountsAppStateHookType = {
   accounts: Array<AccountDto>;
@@ -58,7 +59,7 @@ export const useAccountsAppState = (
 
   const updateAccounts = (accounts: Array<AccountDto>): void => {
     setAccounts(accounts);
-    SaveDataToFireBase(accounts, 'accounts');
+    AccountsApi.createAccounts(accounts, 'accounts');
   };
 
   const onEditAccount = (account: AccountDto): void => {
