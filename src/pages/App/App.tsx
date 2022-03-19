@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Link, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
@@ -9,12 +9,14 @@ import Authorization from '../Authorization/Authorization';
 import ModalFormRecord from '../../components/Modal/ModalFormRecord';
 import ModalFormAccount from '../../components/Modal/ModalFormAccount';
 import NotificationService from '../../services/NotificationService';
+import Loader from '../../components/Loader/Loader';
 import { useAccountsAppState } from './hooks/useAppAccountsState';
 import { useRecordsAppState } from './hooks/useAppRecordsState';
 import { AccountDto, RecordDto } from '../../model';
 import { AppContextType } from '../../model';
 import { auth, SignOut } from '../../firebase';
 import { User } from 'firebase/auth';
+import { AccountsApi } from '../../api/AccountsApi';
 
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -22,20 +24,26 @@ import './App.css';
 export const Context = React.createContext<AppContextType>(null);
 
 const App = () => {
+  const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User>(null);
 
-  auth.onAuthStateChanged((user: User) => {
-    // лоадth
-    if (user) {
-      setUser(user);
-      // убираем лоадэр сетаем юзера
-    } else {
-      setUser(null);
-      // убираем лоадер чилим
-    }
-  });
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user: User) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   const {
+    loading: accountsLoading,
     accounts,
     editedAccount,
     setEditedAccount,
@@ -51,6 +59,7 @@ const App = () => {
   } = useAccountsAppState(user);
 
   const {
+    loading: recordsLoading,
     records,
     editedRecord,
     onEditRecord,
@@ -78,6 +87,7 @@ const App = () => {
 
   const removeRecordWrapper = (record: RecordDto): void => {
     removeRecord(record, accounts);
+    AccountsApi.createAccounts(accounts, 'accounts');
   };
 
   const onSubmitRecordWrapper = (recordFormData: RecordDto): void => {
@@ -100,7 +110,9 @@ const App = () => {
     }
   };
 
-  return user ? (
+  return loading ? (
+    <Loader height="100vh" />
+  ) : user ? (
     <Context.Provider
       value={{
         onRemoveRecord: removeRecordWrapper,
@@ -121,14 +133,18 @@ const App = () => {
             </div>
           </div>
           <ul className="header-accounts-list">
-            {accounts.map((account) => (
-              <Account
-                key={account.id}
-                account={account}
-                onEditAccount={onEditAccount}
-                onRemoveAccount={removeAccountById}
-              />
-            ))}
+            {accountsLoading ? (
+              <Loader height="5vh" />
+            ) : (
+              accounts.map((account) => (
+                <Account
+                  key={account.id}
+                  account={account}
+                  onEditAccount={onEditAccount}
+                  onRemoveAccount={removeAccountById}
+                />
+              ))
+            )}
           </ul>
         </div>
 
@@ -179,7 +195,10 @@ const App = () => {
         <hr className="content-line" />
 
         <Routes>
-          <Route path="/" element={<Records records={records} />} />
+          <Route
+            path="/"
+            element={<Records records={records} loading={recordsLoading} />}
+          />
           <Route path="/statistics" element={<Statistics />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

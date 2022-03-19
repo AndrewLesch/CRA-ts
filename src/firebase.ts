@@ -7,8 +7,7 @@ import {
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
-import { getDatabase, ref, set } from 'firebase/database';
-import { AccountDto, RecordDto } from './model';
+import { getDatabase } from 'firebase/database';
 
 // Initialize Firebase
 const app = initializeApp({

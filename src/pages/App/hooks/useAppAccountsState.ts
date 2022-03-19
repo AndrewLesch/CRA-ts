@@ -9,9 +9,10 @@ import {
   DatabaseReference,
 } from 'firebase/database';
 import { User } from 'firebase/auth';
-import { AccountsApi } from '../../../Api/AccountsApi';
+import { AccountsApi } from '../../../api/AccountsApi';
 
 type UseAccountsAppStateHookType = {
+  loading: boolean;
   accounts: Array<AccountDto>;
   editedAccount: AccountDto;
   accountModalIsOpen: boolean;
@@ -30,6 +31,7 @@ type UseAccountsAppStateHookType = {
 export const useAccountsAppState = (
   user: User
 ): UseAccountsAppStateHookType => {
+  const [loading, setLoading] = useState<boolean>(true);
   const [accounts, setAccounts] = useState<Array<AccountDto>>([]);
   const [editedAccount, setEditedAccount] = useState<AccountDto>(null);
   const [accountModalIsOpen, setAccountModalIsOpen] = useState<boolean>(false);
@@ -45,7 +47,10 @@ export const useAccountsAppState = (
         const accountsFromFirebase: Array<AccountDto> = snapshot.val();
         if (accountsFromFirebase) {
           setAccounts(accountsFromFirebase);
+        } else {
+          openAccountModal();
         }
+        setLoading(false);
       });
     } else {
       setAccounts([]);
@@ -115,6 +120,7 @@ export const useAccountsAppState = (
   };
 
   return {
+    loading,
     accounts,
     setAccounts,
     editedAccount,

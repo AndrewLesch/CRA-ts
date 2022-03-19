@@ -5,12 +5,14 @@ import { RecordDto } from '../../model';
 import { NumberOfRecordsOnPage } from '../../сonstants';
 
 import './Records.css';
+import Loader from '../../components/Loader/Loader';
 
 type RecordsProps = {
   records: Array<RecordDto>;
+  loading: boolean;
 };
 
-const Records: React.FC<RecordsProps> = ({ records }) => {
+const Records: React.FC<RecordsProps> = ({ records, loading }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(NumberOfRecordsOnPage[0]);
 
@@ -59,7 +61,9 @@ const Records: React.FC<RecordsProps> = ({ records }) => {
         />
       </div>
 
-      {records.length > 0 ? (
+      {loading ? (
+        <Loader height="10vh" />
+      ) : records.length > 0 ? (
         <ul className="records-list">
           {displayedRecords.map((record: RecordDto) => (
             <Record key={record.id} record={record} />
