@@ -67,7 +67,7 @@
 
 .image-container {
   margin: auto;
-  background-image: url('../../../public/empty.png');
+  background-image: url('../../assets/empty.png');
   width: 128px;
   height: 128px;
 }

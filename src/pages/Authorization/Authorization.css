@@ -11,7 +11,7 @@
   letter-spacing: 1px;
   background-color: var(--background-color-button-add);
   font-family: var(--font-family-primary);
-  margin-top: 20px;
+  margin-top: 50px;
 }
 
 .authorization-text {
@@ -21,7 +21,7 @@
   font-family: var(--font-family-primary);
 }
 
-.container1 {
+.container--main {
   min-height: 100vh;
   display: flex;
   justify-content: center;

@@ -9,7 +9,7 @@ import './Account.css';
 type AccountProps = {
   account: AccountDto;
   onEditAccount(account: AccountDto): void;
-  onRemoveAccount(accountId: string): void;
+  onRemoveAccount(account: AccountDto): void;
 };
 
 const Account: React.FC<AccountProps> = ({
@@ -31,7 +31,7 @@ const Account: React.FC<AccountProps> = ({
       />
       <FontAwesomeIcon
         icon={faTrash}
-        onClick={() => onRemoveAccount(account.id)}
+        onClick={() => onRemoveAccount(account)}
         className="account-btn--delete"
       />
     </div>

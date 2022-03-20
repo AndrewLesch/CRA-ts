@@ -10,6 +10,9 @@ import {
   RecordType,
 } from './model';
 
+const incomeIcon =  require('../src/assets/income.png');
+const expenseIcon =  require('../src/assets/expense.png');
+
 export const Currency: {
   [T in CurrencyType]: CurrencyItem;
 } = {
@@ -40,14 +43,22 @@ export const recordTypes: {
 } = {
   [RecordType.Income]: {
     icon: (
-      <img src="income.png" className="record-icon-type" alt="Income icon" />
+      <img
+        src={incomeIcon}
+        className="record-icon-type"
+        alt="Income icon"
+      />
     ),
     value: RecordType.Income,
     label: 'Доходы',
   },
   [RecordType.Expense]: {
     icon: (
-      <img src="expense.png" className="record-icon-type" alt="Expense icon" />
+      <img
+        src={expenseIcon}
+        className="record-icon-type"
+        alt="Expense icon"
+      />
     ),
     value: RecordType.Expense,
     label: 'Расходы',

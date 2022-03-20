@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { changeDocumentTitle } from '../../../utils';
 import { AccountDto } from '../../../model';
 import { database } from '../../../firebase';
+import { User } from 'firebase/auth';
+import { AccountsApi } from '../../../api/AccountsApi';
 import {
   ref,
   onValue,
   DataSnapshot,
   DatabaseReference,
 } from 'firebase/database';
-import { User } from 'firebase/auth';
-import { AccountsApi } from '../../../api/AccountsApi';
 
 type UseAccountsAppStateHookType = {
   loading: boolean;
@@ -20,7 +20,7 @@ type UseAccountsAppStateHookType = {
   openAccountModal(): void;
   onEditAccount(account: AccountDto): void;
   updateAccounts(accounts: Array<AccountDto>): void;
-  removeAccount(accountId: string): void;
+  removeAccount(account: AccountDto): void;
   onSubmitAccount(accountFormData: AccountDto): boolean;
   setAccounts(accounts: Array<AccountDto>): void;
   setIsEditingAccount(isEditingAccount: boolean): void;
@@ -44,12 +44,18 @@ export const useAccountsAppState = (
         `users/${user.uid}/accounts`
       );
       onValue(path, (snapshot: DataSnapshot): void => {
-        const accountsFromFirebase: Array<AccountDto> = snapshot.val();
-        if (accountsFromFirebase) {
-          setAccounts(accountsFromFirebase);
-        } else {
-          openAccountModal();
+        if (snapshot.val()) {
+          const accountsFromFirebase: Array<AccountDto> = Object.values(
+            snapshot.val()
+          ).map((acc: AccountDto) => acc);
+
+          if (accountsFromFirebase) {
+            setAccounts(accountsFromFirebase);
+          } else {
+            openAccountModal();
+          }
         }
+
         setLoading(false);
       });
     } else {
@@ -64,7 +70,6 @@ export const useAccountsAppState = (
 
   const updateAccounts = (accounts: Array<AccountDto>): void => {
     setAccounts(accounts);
-    AccountsApi.createAccounts(accounts, 'accounts');
   };
 
   const onEditAccount = (account: AccountDto): void => {
@@ -74,12 +79,13 @@ export const useAccountsAppState = (
     changeDocumentTitle('Money tracker - Работа с аккаунтом');
   };
 
-  const removeAccount = (accountId: string): void => {
+  const removeAccount = (account: AccountDto): void => {
     const currentAccIndex: number = accounts.findIndex(
-      ({ id }) => id === accountId
+      ({ id }) => id === account.id
     );
     const currentAccounts: Array<AccountDto> = [...accounts];
     currentAccounts.splice(currentAccIndex, 1);
+    AccountsApi.deleteAccount(account);
     updateAccounts(currentAccounts);
     if (currentAccounts.length === 0) {
       setAccountModalIsOpen(true);
@@ -102,6 +108,7 @@ export const useAccountsAppState = (
           ({ id }) => id === accountFormData.id
         );
         nextAccounts[accountIndex] = accountFormData;
+        AccountsApi.setAccount(accountFormData);
         updateAccounts(nextAccounts);
         setAccountModalIsOpen(false);
         setEditedAccount(null);
@@ -113,6 +120,7 @@ export const useAccountsAppState = (
       setIsEditingAccount(false);
       setEditedAccount(null);
       setAccountModalIsOpen(false);
+      AccountsApi.setAccount(accountFormData);
       const nextAccounts: Array<AccountDto> = [...accounts, accountFormData];
       updateAccounts(nextAccounts);
     }
@@ -122,12 +130,12 @@ export const useAccountsAppState = (
   return {
     loading,
     accounts,
-    setAccounts,
     editedAccount,
-    setEditedAccount,
     accountModalIsOpen,
-    setAccountModalIsOpen,
     isEditingAccount,
+    setAccounts,
+    setEditedAccount,
+    setAccountModalIsOpen,
     setIsEditingAccount,
     openAccountModal,
     onEditAccount,

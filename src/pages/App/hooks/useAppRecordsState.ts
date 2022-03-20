@@ -3,14 +3,15 @@ import { AccountDto, RecordDto } from '../../../model.js';
 import { changeDocumentTitle } from '../../../utils';
 import { recordTypes } from '../../../сonstants';
 import { database } from '../../../firebase';
+import { User } from 'firebase/auth';
+import { RecordsApi } from '../../../api/RecordsApi';
+import { AccountsApi } from '../../../api/AccountsApi';
 import {
   ref,
   onValue,
   DataSnapshot,
   DatabaseReference,
 } from 'firebase/database';
-import { User } from 'firebase/auth';
-import { RecordsApi } from '../../../api/RecordsApi';
 
 type UseRecordsAppStateHookType = {
   loading: boolean;
@@ -46,10 +47,16 @@ export const useRecordsAppState = (user: User): UseRecordsAppStateHookType => {
         `users/${user.uid}/records`
       );
       onValue(path, (snapshot: DataSnapshot): void => {
-        const recordsFromFirebase: Array<RecordDto> = snapshot.val();
-        if (recordsFromFirebase) {
-          setRecords(recordsFromFirebase);
+        if (snapshot.val()) {
+          const recordsFromFirebase: Array<RecordDto> = Object.values(
+            snapshot.val()
+          ).map((rec: RecordDto) => rec);
+
+          if (recordsFromFirebase) {
+            setRecords(recordsFromFirebase);
+          }
         }
+
         setLoading(false);
       });
     } else {
@@ -59,7 +66,6 @@ export const useRecordsAppState = (user: User): UseRecordsAppStateHookType => {
 
   const updateRecords = (records: Array<RecordDto>): void => {
     setRecords(records);
-    RecordsApi.createRecords(records, 'records');
   };
 
   const onEditRecord = (record: RecordDto): void => {
@@ -94,6 +100,8 @@ export const useRecordsAppState = (user: User): UseRecordsAppStateHookType => {
     }
 
     const currentRecords: Array<RecordDto> = [...records];
+    AccountsApi.setAccount(accounts[currentAccIndex]);
+    RecordsApi.deleteRecord(record);
     currentRecords.splice(deleteRecordIndex, 1);
     updateRecords(currentRecords);
     setIsEditingRecord(false);
@@ -144,6 +152,8 @@ export const useRecordsAppState = (user: User): UseRecordsAppStateHookType => {
           }
 
           nextRecords[recordIndex] = recordFormData;
+          AccountsApi.setAccount(nextAccounts[currentRecordAccIndex]);
+          RecordsApi.setRecord(recordFormData);
           updateRecords(nextRecords);
           setIsEditingRecord(false);
           return nextAccounts;
@@ -169,12 +179,15 @@ export const useRecordsAppState = (user: User): UseRecordsAppStateHookType => {
                 +nextAccounts[nextRecordAccIndex].value - +recordFormData.value;
             }
           }
-
+          RecordsApi.setRecord(recordFormData);
+          AccountsApi.setAccount(nextAccounts[nextRecordAccIndex]);
+          AccountsApi.setAccount(nextAccounts[currentRecordAccIndex]);
           return nextAccounts;
         }
       }
 
       nextRecords[recordIndex] = recordFormData;
+      RecordsApi.setRecord(recordFormData);
       updateRecords(nextRecords);
       setIsEditingRecord(false);
     } else {
@@ -191,6 +204,8 @@ export const useRecordsAppState = (user: User): UseRecordsAppStateHookType => {
           +nextAccounts[accountIndex].value + +recordFormData.value;
       }
       const nextRecords: Array<RecordDto> = [...records, recordFormData];
+      AccountsApi.setAccount(nextAccounts[accountIndex]);
+      RecordsApi.setRecord(recordFormData);
       updateRecords(nextRecords);
       setIsEditingRecord(false);
       return nextAccounts;
@@ -212,11 +227,11 @@ export const useRecordsAppState = (user: User): UseRecordsAppStateHookType => {
     loading,
     records,
     editedRecord,
+    isEditingRecord,
+    recordModalIsOpen,
     onEditRecord,
     setEditedRecord,
-    recordModalIsOpen,
     setRecordModalIsOpen,
-    isEditingRecord,
     setIsEditingRecord,
     updateRecords,
     openRecordModal,

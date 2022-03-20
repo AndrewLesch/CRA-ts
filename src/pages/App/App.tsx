@@ -16,7 +16,7 @@ import { AccountDto, RecordDto } from '../../model';
 import { AppContextType } from '../../model';
 import { auth, SignOut } from '../../firebase';
 import { User } from 'firebase/auth';
-import { AccountsApi } from '../../api/AccountsApi';
+import { RecordsApi } from '../../api/RecordsApi';
 
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -73,21 +73,21 @@ const App = () => {
     onSubmitRecord,
   } = useRecordsAppState(user);
 
-  const removeAccountById = (accountId: string): void => {
-    removeAccount(accountId);
+  const removeAccountWrapper = (account: AccountDto): void => {
+    removeAccount(account);
 
     const remainingRecords: Array<RecordDto> = records.filter(
-      (record) => record.accountId !== accountId
+      (record) => record.accountId !== account.id
     );
 
     if (records.length !== remainingRecords.length) {
       updateRecords(remainingRecords);
     }
+    RecordsApi.updateRecords(remainingRecords, 'records');
   };
 
   const removeRecordWrapper = (record: RecordDto): void => {
     removeRecord(record, accounts);
-    AccountsApi.createAccounts(accounts, 'accounts');
   };
 
   const onSubmitRecordWrapper = (recordFormData: RecordDto): void => {
@@ -141,7 +141,7 @@ const App = () => {
                   key={account.id}
                   account={account}
                   onEditAccount={onEditAccount}
-                  onRemoveAccount={removeAccountById}
+                  onRemoveAccount={removeAccountWrapper}
                 />
               ))
             )}
