@@ -47,7 +47,7 @@ export const useAccountsAppState = (
         if (snapshot.val()) {
           const accountsFromFirebase: Array<AccountDto> = Object.values(
             snapshot.val()
-          ).map((acc: AccountDto) => acc);
+          );
           setAccounts(accountsFromFirebase);
         } else {
           openAccountModal();

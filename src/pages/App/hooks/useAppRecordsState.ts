@@ -50,7 +50,7 @@ export const useRecordsAppState = (user: User): UseRecordsAppStateHookType => {
         if (snapshot.val()) {
           const recordsFromFirebase: Array<RecordDto> = Object.values(
             snapshot.val()
-          ).map((rec: RecordDto) => rec);
+          );
 
           if (recordsFromFirebase) {
             setRecords(recordsFromFirebase);
