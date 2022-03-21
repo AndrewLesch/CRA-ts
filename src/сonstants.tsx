@@ -10,8 +10,8 @@ import {
   RecordType,
 } from './model';
 
-const incomeIcon =  require('../src/assets/income.png');
-const expenseIcon =  require('../src/assets/expense.png');
+import incomeIcon from '../src/assets/income.png';
+import expenseIcon from '../src/assets/expense.png';
 
 export const Currency: {
   [T in CurrencyType]: CurrencyItem;

@@ -62,7 +62,7 @@ const Records: React.FC<RecordsProps> = ({ records, loading }) => {
       </div>
 
       {loading ? (
-        <Loader height="10vh" />
+        <Loader />
       ) : records.length > 0 ? (
         <ul className="records-list">
           {displayedRecords.map((record: RecordDto) => (

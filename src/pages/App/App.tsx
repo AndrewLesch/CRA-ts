@@ -43,7 +43,7 @@ const App = () => {
   }, []);
 
   const {
-    loading: accountsLoading,
+    accountsLoading,
     accounts,
     editedAccount,
     setEditedAccount,
@@ -59,7 +59,7 @@ const App = () => {
   } = useAccountsAppState(user);
 
   const {
-    loading: recordsLoading,
+    recordsLoading,
     records,
     editedRecord,
     onEditRecord,
@@ -111,7 +111,9 @@ const App = () => {
   };
 
   return loading ? (
-    <Loader height="100vh" />
+    <div className="app-loader-container">
+      <Loader />
+    </div>
   ) : user ? (
     <Context.Provider
       value={{
@@ -134,7 +136,7 @@ const App = () => {
           </div>
           <ul className="header-accounts-list">
             {accountsLoading ? (
-              <Loader height="5vh" />
+              <Loader />
             ) : (
               accounts.map((account) => (
                 <Account

@@ -14,7 +14,7 @@ import {
 } from 'firebase/database';
 
 type UseRecordsAppStateHookType = {
-  loading: boolean;
+  recordsLoading: boolean;
   records: Array<RecordDto>;
   editedRecord: RecordDto;
   recordModalIsOpen: boolean;
@@ -34,7 +34,7 @@ type UseRecordsAppStateHookType = {
 };
 
 export const useRecordsAppState = (user: User): UseRecordsAppStateHookType => {
-  const [loading, setLoading] = useState<boolean>(true);
+  const [recordsLoading, setRecordsLoading] = useState<boolean>(true);
   const [records, setRecords] = useState<Array<RecordDto>>([]);
   const [editedRecord, setEditedRecord] = useState<RecordDto>(null);
   const [recordModalIsOpen, setRecordModalIsOpen] = useState<boolean>(false);
@@ -57,7 +57,7 @@ export const useRecordsAppState = (user: User): UseRecordsAppStateHookType => {
           }
         }
 
-        setLoading(false);
+        setRecordsLoading(false);
       });
     } else {
       setRecords([]);
@@ -224,7 +224,7 @@ export const useRecordsAppState = (user: User): UseRecordsAppStateHookType => {
   });
 
   return {
-    loading,
+    recordsLoading,
     records,
     editedRecord,
     isEditingRecord,

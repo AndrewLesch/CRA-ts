@@ -8,5 +8,5 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src"]
+  "include": ["src", "custom.d.ts"]
 }

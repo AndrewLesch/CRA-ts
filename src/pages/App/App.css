@@ -148,3 +148,7 @@ body {
 .header-user-name {
   margin-right: 10px;
 }
+
+.app-loader-container {
+  margin-top: 50vh;
+}

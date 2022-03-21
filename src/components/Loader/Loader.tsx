@@ -2,12 +2,8 @@ import React from 'react';
 
 import './Loader.css';
 
-type LoaderProps = {
-  height: string;
-};
-
-const Loader: React.FC<LoaderProps> = ({ height }) => (
-  <div className="loader-container" style={{ height: height }}>
+const Loader: React.FC = () => (
+  <div className="loader-container">
     <div className="lds-ring">
       <div></div>
       <div></div>
