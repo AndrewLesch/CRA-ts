@@ -25,6 +25,7 @@ import {
 
 import './Modal.css';
 import './ModalFormRecord.css';
+import i18next from 'i18next';
 
 type ModalRecordProps = {
   accounts: Array<AccountDto>;
@@ -192,13 +193,15 @@ const ModalFormRecord: React.FC<ModalRecordProps> = ({
     <Modal isOpen={modalIsOpen} ariaHideApp={false} className="modal">
       <div className="modal-records-body" ref={modalBodyref}>
         <form onSubmit={onSubmitForm}>
-          <h2 className="modal-header-title">Работа с записями</h2>
+          <h2 className="modal-header-title">
+            {i18next.t('modal-record-header-title')}
+          </h2>
 
           <div className="records-selects-container">
             <NumberInput
               onChange={(val: number) => setRecord({ ...record, value: val })}
               value={record.value}
-              placeholder={'Сумма'}
+              placeholder={i18next.t('money-placeholder')}
               disabled={false}
               required
               min={0.01}
@@ -253,7 +256,7 @@ const ModalFormRecord: React.FC<ModalRecordProps> = ({
           </div>
 
           <button className="modal-button--submit" type="submit">
-            Принять запись
+            {i18next.t('modal-record-save-button')}
           </button>
         </form>
       </div>

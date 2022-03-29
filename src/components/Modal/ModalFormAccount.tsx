@@ -8,6 +8,7 @@ import { modalSelectsStyle } from './ModalSelectStyle';
 import ColorPicker from '../ColorPicker/ColorPicker';
 import NumberInput from '../NumberInput/NumberInput';
 import { AccountDto, CurrencyItem } from '../../model';
+import i18next from 'i18next';
 
 import './ModalFormAccount.css';
 
@@ -115,12 +116,14 @@ const ModalAccounts: React.FC<ModalAccountsProps> = ({
     <Modal isOpen={modalIsOpen} ariaHideApp={false} className="modal">
       <div className="modal-account-body" ref={modalBodyRef}>
         <form onSubmit={onSubmitForm}>
-          <h2 className="modal-header-title">Работа с аккаунтом</h2>
+          <h2 className="modal-header-title">
+            {i18next.t('modal-account-header-title')}
+          </h2>
 
           <input
             value={account.name}
             className="account-name-input"
-            placeholder="Введите название аккаунта"
+            placeholder={i18next.t('account-name-placeholder')}
             required
             maxLength={15}
             onChange={setAccountInputValue('name')}
@@ -131,7 +134,7 @@ const ModalAccounts: React.FC<ModalAccountsProps> = ({
               onChange={(val: number) => setAccount({ ...account, value: val })}
               value={account.value}
               disabled={isEditing}
-              placeholder={'Сумма'}
+              placeholder={i18next.t('money-placeholder')}
               required={true}
               min={0}
               max={100000}
@@ -160,7 +163,7 @@ const ModalAccounts: React.FC<ModalAccountsProps> = ({
             style={{ backgroundColor: `${account.color}` }}
             className="modal-button--submit"
           >
-            Сохранить аккаунт
+            {i18next.t('modal-account-save-button')}
           </button>
         </form>
       </div>

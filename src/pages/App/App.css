@@ -8,6 +8,10 @@
   --background-color-button-submit: #dfb6b6;
   --background-color-button-add: #55be7c;
   --background-color-button-add-hover: #6eda95;
+  --background-color-button-quit: #f0a9aa;
+  --background-color-button-quit-hover: #f7bdbe;
+  --background-color-button-athorization: #9fb6e9;
+  --background-color-button-athorization-hover: #bfcdeb;
 
   --text-color-primary: #495057;
   --text-color-secondary: #6c757d;
@@ -84,6 +88,7 @@ body {
 }
 
 .primary-button {
+  min-width: 160px;
   cursor: pointer;
   text-decoration: none;
   padding: 13px 13px;
@@ -151,4 +156,41 @@ body {
 
 .app-loader-container {
   margin-top: 50vh;
+}
+
+.language-select {
+  min-width: 140px;
+  color: var(--text-color-primary);
+  border-radius: var(--border-radius-default);
+  padding: 10px;
+  font-size: var(--font-weight-default);
+  border: 1px solid var(--border-color-input);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-default);
+  margin-right: 20px;
+}
+
+.language-select:hover {
+  cursor: pointer;
+  border: 1px solid var(--border-color-input-active);
+}
+
+.quit-button {
+  min-width: 85px;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 13px 13px;
+  position: relative;
+  color: var(--text-color-button);
+  border-radius: var(--border-radius-default);
+  border: 1px solid var(--background-color-button-quit);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 1px;
+  background-color: var(--background-color-button-quit);
+  font-family: var(--font-family-primary);
+}
+
+.quit-button:hover {
+  background-color: var(--background-color-button-quit-hover);
 }

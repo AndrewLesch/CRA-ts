@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { Routes, Route, Link, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
@@ -24,6 +26,7 @@ import './App.css';
 export const Context = React.createContext<AppContextType>(null);
 
 const App = () => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User>(null);
 
@@ -110,6 +113,12 @@ const App = () => {
     }
   };
 
+  const changeAppLanguage = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ): void => {
+    i18next.changeLanguage(event.target.value);
+  };
+
   return loading ? (
     <div className="app-loader-container">
       <Loader />
@@ -124,13 +133,21 @@ const App = () => {
       <div className="container">
         <div className="header-accounts-container">
           <div className="header-autorization-container">
-            <h2 className="header-app-logo">Wallet App Calc</h2>
+            <h2 className="header-app-logo">Wallet Calculate App</h2>
             <div className="autourization-container__buttons">
+              <select
+                className="language-select"
+                onChange={changeAppLanguage}
+                value={i18next.language}
+              >
+                <option value={'eng'}>{t('select-language-eng')}</option>
+                <option value={'ru'}>{t('select-language-ru')}</option>
+              </select>
               <h4 className="header-user-name">
                 {user ? user.displayName : ''}
               </h4>
-              <button className="primary-button" onClick={SignOut}>
-                Выйти
+              <button className="quit-button" onClick={SignOut}>
+                {t('quit-button')}
               </button>
             </div>
           </div>
@@ -153,7 +170,7 @@ const App = () => {
         <div className="nav-container">
           <div className="nav-container__buttons">
             <button className="primary-button" onClick={openAccountModal}>
-              Добавить аккаунт
+              {t('adding-account-button')}
             </button>
 
             {accountModalIsOpen && (
@@ -170,7 +187,7 @@ const App = () => {
             )}
 
             <button className="primary-button" onClick={openRecordModal}>
-              Добавить запись
+              {t('adding-record-button')}
             </button>
             {recordModalIsOpen &&
               (editedRecord === null || isEditingRecord === true) && (
@@ -187,10 +204,10 @@ const App = () => {
 
           <div className="nav-container__links">
             <Link className="nav-link" to="/">
-              Записи
+              {t('records')}
             </Link>
             <Link className="nav-link" to="/statistics">
-              Статистика
+              {t('statistics')}
             </Link>
           </div>
         </div>

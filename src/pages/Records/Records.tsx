@@ -3,6 +3,7 @@ import Record from './Record';
 import Pagination from '../../components/Pagination/Pagination';
 import { RecordDto } from '../../model';
 import { NumberOfRecordsOnPage } from '../../сonstants';
+import i18next from 'i18next';
 
 import './Records.css';
 import Loader from '../../components/Loader/Loader';
@@ -38,7 +39,9 @@ const Records: React.FC<RecordsProps> = ({ records, loading }) => {
     <>
       <div className="pagination-container">
         <div className="pagination-page-size">
-          <h3 className="page-size-select-label">Records on page</h3>
+          <h3 className="page-size-select-label">
+            {i18next.t('records-on-page')}
+          </h3>
           <select
             className="page-size-select"
             value={pageSize}
