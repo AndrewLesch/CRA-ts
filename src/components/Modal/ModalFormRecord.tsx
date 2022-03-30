@@ -12,6 +12,8 @@ import { changeDocumentTitle } from '../../utils';
 import DateTimeService from '../../services/DateService';
 import { modalSelectsStyle } from './ModalSelectStyle';
 import NumberInput from '../NumberInput/NumberInput';
+import { translateOptions } from '../../helpers/translateHelper';
+import { t } from 'i18next';
 import {
   AccountDto,
   CurrencyItem,
@@ -25,7 +27,6 @@ import {
 
 import './Modal.css';
 import './ModalFormRecord.css';
-import i18next from 'i18next';
 
 type ModalRecordProps = {
   accounts: Array<AccountDto>;
@@ -174,7 +175,7 @@ const ModalFormRecord: React.FC<ModalRecordProps> = ({
 
   const closeModal = (): void => {
     setModalIsOpen(false);
-    changeDocumentTitle('Money tracker');
+    changeDocumentTitle('app.default.title');
   };
 
   const currencyOptions: Array<CurrencyOptionsType> =
@@ -194,14 +195,14 @@ const ModalFormRecord: React.FC<ModalRecordProps> = ({
       <div className="modal-records-body" ref={modalBodyref}>
         <form onSubmit={onSubmitForm}>
           <h2 className="modal-header-title">
-            {i18next.t('modal-record-header-title')}
+            {t('modal.record-header-title')}
           </h2>
 
           <div className="records-selects-container">
             <NumberInput
               onChange={(val: number) => setRecord({ ...record, value: val })}
               value={record.value}
-              placeholder={i18next.t('money-placeholder')}
+              placeholder={t('money-placeholder')}
               disabled={false}
               required
               min={0.01}
@@ -211,28 +212,30 @@ const ModalFormRecord: React.FC<ModalRecordProps> = ({
             <Select
               isSearchable={false}
               styles={modalSelectsStyle}
-              value={{
+              value={translateOptions({
                 value: record.currency,
                 label: Currency[record.currency].label,
-              }}
+              })}
               onChange={selectRecordCurrency}
-              options={currencyOptions}
+              options={currencyOptions.map(translateOptions)}
             />
             <Select
               isSearchable={false}
               styles={modalSelectsStyle}
-              value={Object.values(recordTypes).find(
-                (recordType) => recordType.value === record.type
+              value={translateOptions(
+                Object.values(recordTypes).find(
+                  (recordType) => recordType.value === record.type
+                )
               )}
               onChange={selectRecordType}
-              options={Object.values(recordTypes)}
+              options={Object.values(recordTypes).map(translateOptions)}
             />
             <Select
               isSearchable={false}
               styles={modalSelectsStyle}
-              value={categoryValue}
+              value={translateOptions(categoryValue)}
               onChange={setRecordSelectValue('category')}
-              options={categories}
+              options={categories.map(translateOptions)}
             />
             <Select
               isSearchable={false}
@@ -241,7 +244,6 @@ const ModalFormRecord: React.FC<ModalRecordProps> = ({
               value={Object.values(accountsFilteredByCurrency).find(
                 (account) => account.value === record.accountId
               )}
-              placeholder="Выберите аккаунт"
               onChange={setRecordSelectValue('accountId')}
               options={Object.values(accountsFilteredByCurrency)}
             />
@@ -256,7 +258,7 @@ const ModalFormRecord: React.FC<ModalRecordProps> = ({
           </div>
 
           <button className="modal-button--submit" type="submit">
-            {i18next.t('modal-record-save-button')}
+            {t('modal.record-save-button')}
           </button>
         </form>
       </div>

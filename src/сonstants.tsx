@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   CurrencyItem,
   CurrencyType,
@@ -18,22 +17,22 @@ export const Currency: {
 } = {
   [CurrencyType.Byn]: {
     value: CurrencyType.Byn,
-    label: 'Белорусский рубль',
+    label: 'currency-select.byn',
     symbol: 'p',
   },
   [CurrencyType.Usd]: {
     value: CurrencyType.Usd,
-    label: 'Доллар США',
+    label: 'currency-select.usd',
     symbol: '$',
   },
   [CurrencyType.Rub]: {
     value: CurrencyType.Rub,
-    label: 'Русский рубль',
+    label: 'currency-select.rub',
     symbol: '₽',
   },
   [CurrencyType.Zl]: {
     value: CurrencyType.Zl,
-    label: 'Злотый',
+    label: 'currency-select.zl',
     symbol: 'zł',
   },
 };
@@ -42,40 +41,35 @@ export const recordTypes: {
   [T in RecordType]: RecordItem;
 } = {
   [RecordType.Income]: {
-    icon: (
-      <img src={incomeIcon} className="record-icon-type" alt="Income icon" />
-    ),
+    icon: incomeIcon,
     value: RecordType.Income,
-    label: 'asd',
+    label: 'type.income',
   },
   [RecordType.Expense]: {
-    icon: (
-      <img src={expenseIcon} className="record-icon-type" alt="Expense icon" />
-    ),
+    icon: expenseIcon,
     value: RecordType.Expense,
-    label: 'Расходы',
+    label: 'type.expense',
   },
 };
-
 
 export const incomeCategories: {
   [T in IncomeCategory]: IncomeCategoryItem;
 } = {
   [IncomeCategory.Salary]: {
     value: IncomeCategory.Salary,
-    label: 'Зарплата',
+    label: 'incomeCategory.salary',
   },
   [IncomeCategory.SellingThings]: {
     value: IncomeCategory.SellingThings,
-    label: 'Продажа вещей',
+    label: 'incomeCategory.sellingThings',
   },
   [IncomeCategory.ReturnOfDebts]: {
     value: IncomeCategory.ReturnOfDebts,
-    label: 'Возвращение долгов',
+    label: 'incomeCategory.returnOfDebts',
   },
   [IncomeCategory.Gifts]: {
     value: IncomeCategory.Gifts,
-    label: 'Подарки',
+    label: 'incomeCategory.gifts',
   },
 };
 
@@ -84,27 +78,27 @@ export const expenseCategories: {
 } = {
   [ExpenseCategory.Clothes]: {
     value: ExpenseCategory.Clothes,
-    label: 'Одежда',
+    label: 'expenseCategory.clothes',
   },
   [ExpenseCategory.Gifts]: {
     value: ExpenseCategory.Gifts,
-    label: 'Подарки',
+    label: 'expenseCategory.gifts',
   },
   [ExpenseCategory.Services]: {
     value: ExpenseCategory.Services,
-    label: 'Услуги',
+    label: 'expenseCategory.services',
   },
   [ExpenseCategory.Food]: {
     value: ExpenseCategory.Food,
-    label: 'Еда',
+    label: 'expenseCategory.food',
   },
   [ExpenseCategory.Car]: {
     value: ExpenseCategory.Car,
-    label: 'На машину',
+    label: 'expenseCategory.car',
   },
   [ExpenseCategory.Travel]: {
     value: ExpenseCategory.Travel,
-    label: 'Путешевствия',
+    label: 'expenseCategory.travel',
   },
 };
 

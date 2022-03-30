@@ -62,7 +62,7 @@ export const useAccountsAppState = (
 
   const openAccountModal = (): void => {
     setAccountModalIsOpen(true);
-    changeDocumentTitle('Money tracker - Работа с аккаунтом');
+    changeDocumentTitle('app.account.title');
   };
 
   const updateAccounts = (accounts: Array<AccountDto>): void => {
@@ -73,7 +73,7 @@ export const useAccountsAppState = (
     setAccountModalIsOpen(true);
     setIsEditingAccount(true);
     setEditedAccount(account);
-    changeDocumentTitle('Money tracker - Работа с аккаунтом');
+    changeDocumentTitle('app.account.title');
   };
 
   const removeAccount = (account: AccountDto): void => {

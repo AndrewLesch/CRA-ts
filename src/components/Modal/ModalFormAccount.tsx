@@ -8,7 +8,8 @@ import { modalSelectsStyle } from './ModalSelectStyle';
 import ColorPicker from '../ColorPicker/ColorPicker';
 import NumberInput from '../NumberInput/NumberInput';
 import { AccountDto, CurrencyItem } from '../../model';
-import i18next from 'i18next';
+import { translateOptions } from '../../helpers/translateHelper';
+import { t } from 'i18next';
 
 import './ModalFormAccount.css';
 
@@ -81,7 +82,7 @@ const ModalAccounts: React.FC<ModalAccountsProps> = ({
     document.addEventListener('mousedown', checkOutsideClick);
 
     return () => {
-      changeDocumentTitle('Money tracker');
+      changeDocumentTitle('app.default.title');
       document.removeEventListener('mousedown', checkOutsideClick);
     };
   }, [accounts, modalIsOpen, setEditedAccount, setIsEditing, setModalIsOpen]);
@@ -117,13 +118,13 @@ const ModalAccounts: React.FC<ModalAccountsProps> = ({
       <div className="modal-account-body" ref={modalBodyRef}>
         <form onSubmit={onSubmitForm}>
           <h2 className="modal-header-title">
-            {i18next.t('modal-account-header-title')}
+            {t('modal.account-header-title')}
           </h2>
 
           <input
             value={account.name}
             className="account-name-input"
-            placeholder={i18next.t('account-name-placeholder')}
+            placeholder={t('account-name-placeholder')}
             required
             maxLength={15}
             onChange={setAccountInputValue('name')}
@@ -134,7 +135,7 @@ const ModalAccounts: React.FC<ModalAccountsProps> = ({
               onChange={(val: number) => setAccount({ ...account, value: val })}
               value={account.value}
               disabled={isEditing}
-              placeholder={i18next.t('money-placeholder')}
+              placeholder={t('money-placeholder')}
               required={true}
               min={0}
               max={100000}
@@ -145,9 +146,9 @@ const ModalAccounts: React.FC<ModalAccountsProps> = ({
               isSearchable={false}
               styles={modalSelectsStyle}
               isDisabled={isEditing}
-              value={Currency[account.currency]}
+              value={translateOptions(Currency[account.currency])}
               onChange={setAccountCurrency}
-              options={Object.values(Currency)}
+              options={Object.values(Currency).map(translateOptions)}
               components={{ Option: IconOption }}
             />
           </div>
@@ -163,7 +164,7 @@ const ModalAccounts: React.FC<ModalAccountsProps> = ({
             style={{ backgroundColor: `${account.color}` }}
             className="modal-button--submit"
           >
-            {i18next.t('modal-account-save-button')}
+            {t('modal.account-save-button')}
           </button>
         </form>
       </div>

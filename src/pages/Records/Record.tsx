@@ -4,6 +4,7 @@ import { faTrash, faPenSquare } from '@fortawesome/free-solid-svg-icons';
 
 import DateTimeService from '../../services/DateService';
 import { Context } from '../App/App';
+import { t } from 'i18next';
 import {
   Currency,
   incomeCategories,
@@ -51,11 +52,21 @@ const Record: React.FC<RecordProps> = ({ record }) => {
       </div>
       <hr className="record-line" />
       <span className="record-text">
-        {recordTypes[record.type].icon}
+        {
+          <img
+            src={recordTypes[record.type].icon}
+            className="record-icon-type"
+            alt={
+              record.type === 'income' ? t('type.income') : t('type.expense')
+            }
+          />
+        }
         <p className="record-type-text">
-          {record.type === recordTypes.income.value
-            ? incomeCategories[record.category as IncomeCategory].label
-            : expenseCategories[record.category as ExpenseCategory].label}
+          {t(
+            record.type === recordTypes.income.value
+              ? incomeCategories[record.category as IncomeCategory].label
+              : expenseCategories[record.category as ExpenseCategory].label
+          )}
         </p>
       </span>
 

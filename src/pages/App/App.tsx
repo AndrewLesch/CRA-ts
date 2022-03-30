@@ -20,6 +20,8 @@ import { auth, SignOut } from '../../firebase';
 import { User } from 'firebase/auth';
 import { RecordsApi } from '../../api/RecordsApi';
 
+import { changeDocumentTitle } from '../../utils';
+
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
@@ -117,6 +119,7 @@ const App = () => {
     event: React.ChangeEvent<HTMLSelectElement>
   ): void => {
     i18next.changeLanguage(event.target.value);
+    changeDocumentTitle(t('app.default.title'));
   };
 
   return loading ? (

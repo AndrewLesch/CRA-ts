@@ -72,12 +72,12 @@ export const useRecordsAppState = (user: User): UseRecordsAppStateHookType => {
     setEditedRecord(record);
     setIsEditingRecord(true);
     setRecordModalIsOpen(true);
-    changeDocumentTitle('Money tracker - Работа с записью');
+    changeDocumentTitle('app.record.title');
   };
 
   const openRecordModal = (): void => {
     setRecordModalIsOpen(!recordModalIsOpen);
-    changeDocumentTitle('Money tracker - Работа с записью');
+    changeDocumentTitle('app.record.title');
   };
 
   const removeRecord = (
