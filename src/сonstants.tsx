@@ -17,22 +17,22 @@ export const Currency: {
 } = {
   [CurrencyType.Byn]: {
     value: CurrencyType.Byn,
-    label: 'currency-select.byn',
+    label: 'currency.byn',
     symbol: 'p',
   },
   [CurrencyType.Usd]: {
     value: CurrencyType.Usd,
-    label: 'currency-select.usd',
+    label: 'currency.usd',
     symbol: '$',
   },
   [CurrencyType.Rub]: {
     value: CurrencyType.Rub,
-    label: 'currency-select.rub',
+    label: 'currency.rub',
     symbol: '₽',
   },
   [CurrencyType.Zl]: {
     value: CurrencyType.Zl,
-    label: 'currency-select.zl',
+    label: 'currency.zl',
     symbol: 'zł',
   },
 };
@@ -41,12 +41,12 @@ export const recordTypes: {
   [T in RecordType]: RecordItem;
 } = {
   [RecordType.Income]: {
-    icon: incomeIcon,
+    iconSource: incomeIcon,
     value: RecordType.Income,
     label: 'type.income',
   },
   [RecordType.Expense]: {
-    icon: expenseIcon,
+    iconSource: expenseIcon,
     value: RecordType.Expense,
     label: 'type.expense',
   },
@@ -57,19 +57,19 @@ export const incomeCategories: {
 } = {
   [IncomeCategory.Salary]: {
     value: IncomeCategory.Salary,
-    label: 'incomeCategory.salary',
+    label: 'category.income.salary',
   },
   [IncomeCategory.SellingThings]: {
     value: IncomeCategory.SellingThings,
-    label: 'incomeCategory.sellingThings',
+    label: 'category.income.selling_things',
   },
   [IncomeCategory.ReturnOfDebts]: {
     value: IncomeCategory.ReturnOfDebts,
-    label: 'incomeCategory.returnOfDebts',
+    label: 'category.income.return_of_debts',
   },
   [IncomeCategory.Gifts]: {
     value: IncomeCategory.Gifts,
-    label: 'incomeCategory.gifts',
+    label: 'category.income.gifts',
   },
 };
 
@@ -78,28 +78,29 @@ export const expenseCategories: {
 } = {
   [ExpenseCategory.Clothes]: {
     value: ExpenseCategory.Clothes,
-    label: 'expenseCategory.clothes',
+    label: 'category.expense.clothes',
   },
   [ExpenseCategory.Gifts]: {
     value: ExpenseCategory.Gifts,
-    label: 'expenseCategory.gifts',
+    label: 'category.expense.gifts',
   },
   [ExpenseCategory.Services]: {
     value: ExpenseCategory.Services,
-    label: 'expenseCategory.services',
+    label: 'category.expense.services',
   },
   [ExpenseCategory.Food]: {
     value: ExpenseCategory.Food,
-    label: 'expenseCategory.food',
+    label: 'category.expense.food',
   },
   [ExpenseCategory.Car]: {
     value: ExpenseCategory.Car,
-    label: 'expenseCategory.car',
+    label: 'category.expense.car',
   },
   [ExpenseCategory.Travel]: {
     value: ExpenseCategory.Travel,
-    label: 'expenseCategory.travel',
+    label: 'category.expense.travel',
   },
 };
 
 export const NumberOfRecordsOnPage: Array<number> = [5, 10, 15, 20];
+export const LS_LANGUAGE_KEY = 'language';

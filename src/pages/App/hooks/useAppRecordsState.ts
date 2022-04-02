@@ -72,12 +72,12 @@ export const useRecordsAppState = (user: User): UseRecordsAppStateHookType => {
     setEditedRecord(record);
     setIsEditingRecord(true);
     setRecordModalIsOpen(true);
-    changeDocumentTitle('app.record.title');
+    changeDocumentTitle('app.title.record');
   };
 
   const openRecordModal = (): void => {
     setRecordModalIsOpen(!recordModalIsOpen);
-    changeDocumentTitle('app.record.title');
+    changeDocumentTitle('app.title.record');
   };
 
   const removeRecord = (

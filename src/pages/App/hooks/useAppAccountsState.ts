@@ -62,7 +62,7 @@ export const useAccountsAppState = (
 
   const openAccountModal = (): void => {
     setAccountModalIsOpen(true);
-    changeDocumentTitle('app.account.title');
+    changeDocumentTitle('app.title.account');
   };
 
   const updateAccounts = (accounts: Array<AccountDto>): void => {
@@ -73,7 +73,7 @@ export const useAccountsAppState = (
     setAccountModalIsOpen(true);
     setIsEditingAccount(true);
     setEditedAccount(account);
-    changeDocumentTitle('app.account.title');
+    changeDocumentTitle('app.title.account');
   };
 
   const removeAccount = (account: AccountDto): void => {

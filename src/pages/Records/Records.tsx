@@ -40,7 +40,7 @@ const Records: React.FC<RecordsProps> = ({ records, loading }) => {
       <div className="pagination-container">
         <div className="pagination-page-size">
           <h3 className="page-size-select-label">
-            {i18next.t('records-on-page')}
+            {i18next.t('app.select.records_on_page')}
           </h3>
           <select
             className="page-size-select"

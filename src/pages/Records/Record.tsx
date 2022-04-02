@@ -54,11 +54,9 @@ const Record: React.FC<RecordProps> = ({ record }) => {
       <span className="record-text">
         {
           <img
-            src={recordTypes[record.type].icon}
+            src={recordTypes[record.type].iconSource}
             className="record-icon-type"
-            alt={
-              record.type === 'income' ? t('type.income') : t('type.expense')
-            }
+            alt={t(`type.${record.type}`)}
           />
         }
         <p className="record-type-text">

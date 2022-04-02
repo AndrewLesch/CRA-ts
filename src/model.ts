@@ -62,7 +62,7 @@ export type ExpenseCategoryItem = {
 };
 
 export type RecordItem = {
-  icon: string;
+  iconSource: string;
   value: RecordType;
   label: string;
 };

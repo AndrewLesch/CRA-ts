@@ -10,7 +10,7 @@ const Authorization: React.FC = () => {
       <div className="authorization-container">
         <h1 className="authorization-text">{t('authorization')}</h1>
         <button className="authorization-button" onClick={SignInWithGoogle}>
-          {t('authorization-button')}
+          {t('authorization.button_login')}
         </button>
       </div>
     </div>

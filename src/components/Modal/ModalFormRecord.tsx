@@ -12,7 +12,7 @@ import { changeDocumentTitle } from '../../utils';
 import DateTimeService from '../../services/DateService';
 import { modalSelectsStyle } from './ModalSelectStyle';
 import NumberInput from '../NumberInput/NumberInput';
-import { translateOptions } from '../../helpers/translateHelper';
+import { translateOptions } from '../../utils';
 import { t } from 'i18next';
 import {
   AccountDto,
@@ -175,7 +175,7 @@ const ModalFormRecord: React.FC<ModalRecordProps> = ({
 
   const closeModal = (): void => {
     setModalIsOpen(false);
-    changeDocumentTitle('app.default.title');
+    changeDocumentTitle('app.title.default');
   };
 
   const currencyOptions: Array<CurrencyOptionsType> =
@@ -195,14 +195,14 @@ const ModalFormRecord: React.FC<ModalRecordProps> = ({
       <div className="modal-records-body" ref={modalBodyref}>
         <form onSubmit={onSubmitForm}>
           <h2 className="modal-header-title">
-            {t('modal.record-header-title')}
+            {t('modal.record_title_header')}
           </h2>
 
           <div className="records-selects-container">
             <NumberInput
               onChange={(val: number) => setRecord({ ...record, value: val })}
               value={record.value}
-              placeholder={t('money-placeholder')}
+              placeholder={t('modal.money_placeholder')}
               disabled={false}
               required
               min={0.01}
@@ -258,7 +258,7 @@ const ModalFormRecord: React.FC<ModalRecordProps> = ({
           </div>
 
           <button className="modal-button--submit" type="submit">
-            {t('modal.record-save-button')}
+            {t('modal.record_button_save')}
           </button>
         </form>
       </div>

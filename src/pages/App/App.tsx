@@ -19,8 +19,8 @@ import { AppContextType } from '../../model';
 import { auth, SignOut } from '../../firebase';
 import { User } from 'firebase/auth';
 import { RecordsApi } from '../../api/RecordsApi';
-
 import { changeDocumentTitle } from '../../utils';
+import { LS_LANGUAGE_KEY } from '../../сonstants';
 
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -33,6 +33,7 @@ const App = () => {
   const [user, setUser] = useState<User>(null);
 
   useEffect(() => {
+    i18next.changeLanguage(localStorage.getItem(LS_LANGUAGE_KEY));
     const unsubscribe = auth.onAuthStateChanged((user: User) => {
       if (user) {
         setUser(user);
@@ -119,7 +120,8 @@ const App = () => {
     event: React.ChangeEvent<HTMLSelectElement>
   ): void => {
     i18next.changeLanguage(event.target.value);
-    changeDocumentTitle(t('app.default.title'));
+    changeDocumentTitle('app.title.default');
+    localStorage.setItem(LS_LANGUAGE_KEY, event.target.value);
   };
 
   return loading ? (
@@ -143,14 +145,14 @@ const App = () => {
                 onChange={changeAppLanguage}
                 value={i18next.language}
               >
-                <option value={'eng'}>{t('select-language-eng')}</option>
-                <option value={'ru'}>{t('select-language-ru')}</option>
+                <option value={'eng'}>{t('app.select.language_eng')}</option>
+                <option value={'ru'}>{t('app.select.language_ru')}</option>
               </select>
               <h4 className="header-user-name">
                 {user ? user.displayName : ''}
               </h4>
               <button className="quit-button" onClick={SignOut}>
-                {t('quit-button')}
+                {t('app.button_quit')}
               </button>
             </div>
           </div>
@@ -173,7 +175,7 @@ const App = () => {
         <div className="nav-container">
           <div className="nav-container__buttons">
             <button className="primary-button" onClick={openAccountModal}>
-              {t('adding-account-button')}
+              {t('app.button_add_account')}
             </button>
 
             {accountModalIsOpen && (
@@ -190,7 +192,7 @@ const App = () => {
             )}
 
             <button className="primary-button" onClick={openRecordModal}>
-              {t('adding-record-button')}
+              {t('app.button_add_record')}
             </button>
             {recordModalIsOpen &&
               (editedRecord === null || isEditingRecord === true) && (
@@ -207,10 +209,10 @@ const App = () => {
 
           <div className="nav-container__links">
             <Link className="nav-link" to="/">
-              {t('records')}
+              {t('app.records')}
             </Link>
             <Link className="nav-link" to="/statistics">
-              {t('statistics')}
+              {t('app.statistics')}
             </Link>
           </div>
         </div>

@@ -8,7 +8,7 @@ import { modalSelectsStyle } from './ModalSelectStyle';
 import ColorPicker from '../ColorPicker/ColorPicker';
 import NumberInput from '../NumberInput/NumberInput';
 import { AccountDto, CurrencyItem } from '../../model';
-import { translateOptions } from '../../helpers/translateHelper';
+import { translateOptions } from '../../utils';
 import { t } from 'i18next';
 
 import './ModalFormAccount.css';
@@ -82,7 +82,7 @@ const ModalAccounts: React.FC<ModalAccountsProps> = ({
     document.addEventListener('mousedown', checkOutsideClick);
 
     return () => {
-      changeDocumentTitle('app.default.title');
+      changeDocumentTitle('app.title.default');
       document.removeEventListener('mousedown', checkOutsideClick);
     };
   }, [accounts, modalIsOpen, setEditedAccount, setIsEditing, setModalIsOpen]);
@@ -118,13 +118,13 @@ const ModalAccounts: React.FC<ModalAccountsProps> = ({
       <div className="modal-account-body" ref={modalBodyRef}>
         <form onSubmit={onSubmitForm}>
           <h2 className="modal-header-title">
-            {t('modal.account-header-title')}
+            {t('modal.account_title_header')}
           </h2>
 
           <input
             value={account.name}
             className="account-name-input"
-            placeholder={t('account-name-placeholder')}
+            placeholder={t('modal.account_name_placeholder')}
             required
             maxLength={15}
             onChange={setAccountInputValue('name')}
@@ -135,7 +135,7 @@ const ModalAccounts: React.FC<ModalAccountsProps> = ({
               onChange={(val: number) => setAccount({ ...account, value: val })}
               value={account.value}
               disabled={isEditing}
-              placeholder={t('money-placeholder')}
+              placeholder={t('modal.money_placeholder')}
               required={true}
               min={0}
               max={100000}
@@ -164,7 +164,7 @@ const ModalAccounts: React.FC<ModalAccountsProps> = ({
             style={{ backgroundColor: `${account.color}` }}
             className="modal-button--submit"
           >
-            {t('modal.account-save-button')}
+            {t('modal.account_button_save')}
           </button>
         </form>
       </div>
