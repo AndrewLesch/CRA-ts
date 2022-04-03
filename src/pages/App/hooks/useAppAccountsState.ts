@@ -3,7 +3,7 @@ import { changeDocumentTitle } from '../../../utils';
 import { AccountDto } from '../../../model';
 import { database } from '../../../firebase';
 import { User } from 'firebase/auth';
-import { AccountsApi } from '../../../api/AccountsApi';
+import { AccountsApi } from '../../../Api/AccountsApi';
 import {
   ref,
   onValue,

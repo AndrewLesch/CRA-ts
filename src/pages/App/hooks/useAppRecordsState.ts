@@ -4,8 +4,8 @@ import { changeDocumentTitle } from '../../../utils';
 import { recordTypes } from '../../../сonstants';
 import { database } from '../../../firebase';
 import { User } from 'firebase/auth';
-import { RecordsApi } from '../../../api/RecordsApi';
-import { AccountsApi } from '../../../api/AccountsApi';
+import { RecordsApi } from '../../../Api/RecordsApi';
+import { AccountsApi } from '../../../Api/AccountsApi';
 import {
   ref,
   onValue,

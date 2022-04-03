@@ -18,7 +18,7 @@ import { AccountDto, RecordDto } from '../../model';
 import { AppContextType } from '../../model';
 import { auth, SignOut } from '../../firebase';
 import { User } from 'firebase/auth';
-import { RecordsApi } from '../../api/RecordsApi';
+import { RecordsApi } from '../../Api/RecordsApi';
 import { changeDocumentTitle } from '../../utils';
 import { LS_LANGUAGE_KEY } from '../../сonstants';
 
@@ -33,7 +33,11 @@ const App = () => {
   const [user, setUser] = useState<User>(null);
 
   useEffect(() => {
-    i18next.changeLanguage(localStorage.getItem(LS_LANGUAGE_KEY));
+    const userLanguage = localStorage.getItem(LS_LANGUAGE_KEY);
+    if (userLanguage) {
+      i18next.changeLanguage(userLanguage);
+    }
+
     const unsubscribe = auth.onAuthStateChanged((user: User) => {
       if (user) {
         setUser(user);
