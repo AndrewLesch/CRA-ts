@@ -12,10 +12,10 @@ describe('ColorPicker Test', () => {
   const onChange = (color: string): void => {
     pickedColor = color;
   };
-  let component: ReactWrapper;
+  let ColorPickerComponent: ReactWrapper;
 
   beforeEach(() => {
-    component = mount(
+    ColorPickerComponent = mount(
       <ColorPicker
         colors={colors}
         currentColor={colors[1]}
@@ -24,18 +24,19 @@ describe('ColorPicker Test', () => {
     );
   });
 
-  it('test mounting ColorPicker', () => {
-    expect(component).toMatchSnapshot();
+  it('test mounting ColorPickerComponent', () => {
+    expect(ColorPickerComponent).toMatchSnapshot();
   });
 
-  it('test presence of buttins', () => {
-    const button: ReactWrapper = component.find('button');
+  it('test presence of buttons', () => {
+    const button: ReactWrapper = ColorPickerComponent.find('button');
     expect(button).toHaveLength(3);
   });
 
   it('first button click test', () => {
-    const btn: ReactWrapper = component.find('.color-button').first();
-    btn.simulate('click');
+    const button: ReactWrapper =
+      ColorPickerComponent.find('.color-button').first();
+    button.simulate('click');
     expect(pickedColor).toEqual('color1');
   });
 });
