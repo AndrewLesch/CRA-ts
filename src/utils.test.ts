@@ -3,7 +3,7 @@ import { translateOptions, changeDocumentTitle, Option } from './utils';
 
 jest.mock('i18next');
 
-const tMock = (key: string): string => `${key}`;
+const tMock = (key: string): string => key;
 
 beforeEach(() => {
   (t as jest.Mock).mockImplementation(tMock);

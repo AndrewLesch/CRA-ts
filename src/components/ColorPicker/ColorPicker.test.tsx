@@ -6,16 +6,16 @@ import ColorPicker from './ColorPicker';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('ColorPicker Test', () => {
-  const colors: Array<string> = ['color1', 'color2', 'color3'];
+  const colors: Array<string> = ['#dfb6b6', '#c3dfb6', '#dfd4b6'];
   let pickedColor: string = 'color2';
 
   const onChange = (color: string): void => {
     pickedColor = color;
   };
-  let ColorPickerComponent: ReactWrapper;
+  let colorPickerMountedElement: ReactWrapper;
 
   beforeEach(() => {
-    ColorPickerComponent = mount(
+    colorPickerMountedElement = mount(
       <ColorPicker
         colors={colors}
         currentColor={colors[1]}
@@ -24,19 +24,20 @@ describe('ColorPicker Test', () => {
     );
   });
 
-  it('test mounting ColorPickerComponent', () => {
-    expect(ColorPickerComponent).toMatchSnapshot();
+  it('should match snapshot', () => {
+    expect(colorPickerMountedElement).toMatchSnapshot();
   });
 
-  it('test presence of buttons', () => {
-    const button: ReactWrapper = ColorPickerComponent.find('button');
-    expect(button).toHaveLength(3);
+  it('should have buttons for all color', () => {
+    const button: ReactWrapper = colorPickerMountedElement.find('button');
+    expect(button).toHaveLength(colors.length);
   });
 
-  it('first button click test', () => {
-    const button: ReactWrapper =
-      ColorPickerComponent.find('.color-button').first();
+  it('should changing color', () => {
+    const button: ReactWrapper = colorPickerMountedElement
+      .find('.color-button')
+      .first();
     button.simulate('click');
-    expect(pickedColor).toEqual('color1');
+    expect(pickedColor).toEqual(colors[0]);
   });
 });

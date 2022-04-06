@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ColorPicker Test test mounting ColorPicker 1`] = `
+exports[`ColorPicker Test should match snapshot 1`] = `
 <ColorPicker
   colors={
     Array [
-      "color1",
-      "color2",
-      "color3",
+      "#dfb6b6",
+      "#c3dfb6",
+      "#dfd4b6",
     ]
   }
-  currentColor="color2"
+  currentColor="#c3dfb6"
   onChange={[Function]}
 >
   <div
@@ -17,33 +17,33 @@ exports[`ColorPicker Test test mounting ColorPicker 1`] = `
   >
     <button
       className="color-button "
-      key="color1"
+      key="#dfb6b6"
       onClick={[Function]}
       style={
         Object {
-          "backgroundColor": "color1",
+          "backgroundColor": "#dfb6b6",
         }
       }
       type="button"
     />
     <button
       className="color-button color-button--selected"
-      key="color2"
+      key="#c3dfb6"
       onClick={[Function]}
       style={
         Object {
-          "backgroundColor": "color2",
+          "backgroundColor": "#c3dfb6",
         }
       }
       type="button"
     />
     <button
       className="color-button "
-      key="color3"
+      key="#dfd4b6"
       onClick={[Function]}
       style={
         Object {
-          "backgroundColor": "color3",
+          "backgroundColor": "#dfd4b6",
         }
       }
       type="button"
