@@ -5,7 +5,7 @@ jest.mock('i18next');
 
 const tMock = (key: string): string => `${key}`;
 
-beforeAll(() => {
+beforeEach(() => {
   (t as jest.Mock).mockImplementation(tMock);
 });
 

@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ColorPicker Test test mounting ColorPicker 1`] = `
+<ColorPicker
+  colors={
+    Array [
+      "color1",
+      "color2",
+      "color3",
+    ]
+  }
+  currentColor="color2"
+  onChange={[Function]}
+>
+  <div
+    className="color-container"
+  >
+    <button
+      className="color-button "
+      key="color1"
+      onClick={[Function]}
+      style={
+        Object {
+          "backgroundColor": "color1",
+        }
+      }
+      type="button"
+    />
+    <button
+      className="color-button color-button--selected"
+      key="color2"
+      onClick={[Function]}
+      style={
+        Object {
+          "backgroundColor": "color2",
+        }
+      }
+      type="button"
+    />
+    <button
+      className="color-button "
+      key="color3"
+      onClick={[Function]}
+      style={
+        Object {
+          "backgroundColor": "color3",
+        }
+      }
+      type="button"
+    />
+  </div>
+</ColorPicker>
+`;
