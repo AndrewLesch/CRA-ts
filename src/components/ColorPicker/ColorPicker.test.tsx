@@ -7,7 +7,7 @@ Enzyme.configure({ adapter: new Adapter() });
 
 describe('ColorPicker Test', () => {
   const colors: Array<string> = ['#dfb6b6', '#c3dfb6', '#dfd4b6'];
-  let pickedColor: string = 'color2';
+  let pickedColor: string = colors[0];
 
   const onChange = (color: string): void => {
     pickedColor = color;
@@ -33,7 +33,7 @@ describe('ColorPicker Test', () => {
     expect(button).toHaveLength(colors.length);
   });
 
-  it('should changing color', () => {
+  it('should change color on button click ', () => {
     const button: ReactWrapper = colorPickerMountedElement
       .find('.color-button')
       .first();
