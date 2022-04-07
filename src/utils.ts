@@ -4,7 +4,7 @@ export const changeDocumentTitle = (titleKey: string): void => {
   document.title = t(`${titleKey}`);
 };
 
-type Option = {
+export type Option = {
   label: string;
   value: any;
 };

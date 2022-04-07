@@ -35,6 +35,11 @@
     "eject": "react-scripts eject",
     "prepare": "husky install"
   },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -54,9 +59,14 @@
     ]
   },
   "devDependencies": {
+    "@types/enzyme": "^3.10.11",
     "@types/react-modal": "^3.13.1",
     "@types/uuid": "^8.3.4",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.7",
+    "enzyme": "^3.11.0",
+    "enzyme-to-json": "^3.6.2",
     "husky": "^7.0.0",
+    "jest": "^27.5.1",
     "prettier": "2.5.1",
     "pretty-quick": "^3.1.3"
   }
