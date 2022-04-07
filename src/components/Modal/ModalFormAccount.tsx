@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Modal from 'react-modal';
-import { Currency } from '../../сonstants';
-import { v4 as uuidv4 } from 'uuid';
+import { Currency, accountColors } from '../../сonstants';
 import Select, { components, OptionProps } from 'react-select';
 import { changeDocumentTitle } from '../../utils';
 import { modalSelectsStyle } from './ModalSelectStyle';
@@ -12,6 +11,7 @@ import { translateOptions } from '../../utils';
 import { t } from 'i18next';
 
 import './ModalFormAccount.css';
+import { useModalAccountState } from './hooks/useModalAccountState';
 
 const { Option } = components;
 
@@ -23,17 +23,6 @@ const IconOption = (props: OptionProps<CurrencyItem>) => (
     </div>
   </Option>
 );
-
-const accountColors: Array<string> = [
-  '#dfb6b6',
-  '#c3dfb6',
-  '#dfd4b6',
-  '#b6dfbf',
-  '#b6dedf',
-  '#b6c8df',
-  '#c9b6df',
-  '#ffc4df',
-];
 
 type ModalAccountsProps = {
   modalIsOpen: boolean;
@@ -47,23 +36,23 @@ type ModalAccountsProps = {
 };
 
 const ModalAccounts: React.FC<ModalAccountsProps> = ({
-  onSubmit,
-  modalIsOpen,
-  setModalIsOpen,
   accounts,
   editedAccount,
-  setEditedAccount,
+  modalIsOpen,
   isEditing,
+  onSubmit,
+  setModalIsOpen,
+  setEditedAccount,
   setIsEditing,
 }) => {
-  const [account, setAccount] = useState<AccountDto>({
-    id: uuidv4(),
-    name: '',
-    value: 0,
-    currency: Currency.byn.value,
-    color: accountColors[0],
-  });
-  const modalBodyRef = useRef(null);
+  const {
+    account,
+    modalBodyRef,
+    setAccount,
+    setAccountInputValue,
+    setAccountCurrency,
+    setAccountColor,
+  } = useModalAccountState();
 
   useEffect(() => {
     const closeModal = () => setModalIsOpen(false);
@@ -97,20 +86,6 @@ const ModalAccounts: React.FC<ModalAccountsProps> = ({
   const onSubmitForm = (event: React.SyntheticEvent): void => {
     event.preventDefault();
     onSubmit(account);
-  };
-
-  const setAccountInputValue =
-    (name: string) =>
-    (event: React.ChangeEvent<HTMLInputElement>): void => {
-      setAccount({ ...account, [name]: event.target.value });
-    };
-
-  const setAccountCurrency = (option: CurrencyItem): void => {
-    setAccount({ ...account, currency: option.value });
-  };
-
-  const setAccountColor = (color: string): void => {
-    setAccount({ ...account, color: color });
   };
 
   return (

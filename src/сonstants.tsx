@@ -104,3 +104,13 @@ export const expenseCategories: {
 
 export const NumberOfRecordsOnPage: Array<number> = [5, 10, 15, 20];
 export const LS_LANGUAGE_KEY = 'language';
+export const accountColors: Array<string> = [
+  '#dfb6b6',
+  '#c3dfb6',
+  '#dfd4b6',
+  '#b6dfbf',
+  '#b6dedf',
+  '#b6c8df',
+  '#c9b6df',
+  '#ffc4df',
+];

@@ -27,6 +27,7 @@ import {
 
 import './Modal.css';
 import './ModalFormRecord.css';
+import { useModalRecordState } from './hooks/useModalRecordState';
 
 type ModalRecordProps = {
   accounts: Array<AccountDto>;
@@ -55,13 +56,12 @@ const ModalFormRecord: React.FC<ModalRecordProps> = ({
   editedRecord,
   setEditedRecord,
 }) => {
+  const { categories, setCategories } = useModalRecordState();
+
   const existingAccountsCurrencies: Array<CurrenciesType> = Array.from(
     new Set(accounts.map((acc) => acc.currency))
   ).map((currency) => ({ value: currency, label: currency }));
 
-  const [categories, setCategories] = useState<
-    Array<ExpenseCategoryItem> | Array<IncomeCategoryItem>
-  >(Object.values(incomeCategories));
   const [record, setRecord] = useState<RecordDto>({
     id: uuidv4(),
     accountId: accounts[0].id,
