@@ -4,9 +4,9 @@ import Pagination from '../../components/Pagination/Pagination';
 import { RecordDto } from '../../model';
 import { NumberOfRecordsOnPage } from '../../сonstants';
 import i18next from 'i18next';
+import Loader from '../../components/Loader/Loader';
 
 import './Records.css';
-import Loader from '../../components/Loader/Loader';
 
 type RecordsProps = {
   records: Array<RecordDto>;

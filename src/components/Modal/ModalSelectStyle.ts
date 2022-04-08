@@ -4,7 +4,7 @@ import {
   IncomeCategoryItem,
   RecordItem,
 } from '../../model';
-import { CurrencyOptionsType } from './ModalFormRecord';
+import { CurrencyOptionsType } from './hooks/useModalRecordState';
 
 export const modalSelectsStyle: StylesConfig<
   CurrencyOptionsType | RecordItem | ExpenseCategoryItem | IncomeCategoryItem

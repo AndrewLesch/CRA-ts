@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect } from 'react';
 import Modal from 'react-modal';
-import { v4 as uuidv4 } from 'uuid';
 import Select from 'react-select';
 import {
   Currency,
@@ -14,20 +13,11 @@ import { modalSelectsStyle } from './ModalSelectStyle';
 import NumberInput from '../NumberInput/NumberInput';
 import { translateOptions } from '../../utils';
 import { t } from 'i18next';
-import {
-  AccountDto,
-  CurrencyItem,
-  CurrencyType,
-  ExpenseCategoryItem,
-  IncomeCategoryItem,
-  RecordDto,
-  RecordItem,
-  RecordType,
-} from '../../model';
+import { AccountDto, RecordDto } from '../../model';
+import { useModalRecordState } from './hooks/useModalRecordState';
 
 import './Modal.css';
 import './ModalFormRecord.css';
-import { useModalRecordState } from './hooks/useModalRecordState';
 
 type ModalRecordProps = {
   accounts: Array<AccountDto>;
@@ -38,52 +28,33 @@ type ModalRecordProps = {
   onSubmit(record: RecordDto): void;
 };
 
-type CurrenciesType = {
-  value: CurrencyType;
-  label: CurrencyType;
-};
-
-export type CurrencyOptionsType = {
-  value: CurrencyType;
-  label: string;
-};
-
 const ModalFormRecord: React.FC<ModalRecordProps> = ({
-  onSubmit,
   accounts,
   modalIsOpen,
-  setModalIsOpen,
   editedRecord,
+  onSubmit,
+  setModalIsOpen,
   setEditedRecord,
 }) => {
-  const { categories, setCategories } = useModalRecordState();
-
-  const existingAccountsCurrencies: Array<CurrenciesType> = Array.from(
-    new Set(accounts.map((acc) => acc.currency))
-  ).map((currency) => ({ value: currency, label: currency }));
-
-  const [record, setRecord] = useState<RecordDto>({
-    id: uuidv4(),
-    accountId: accounts[0].id,
-    currency: existingAccountsCurrencies[0].value,
-    type: recordTypes.income.value,
-    category: incomeCategories.salary.value,
-    value: 0,
-    date: DateTimeService.getFormattedTodayDate(),
-    creatingTime: 0,
-  });
-  const modalBodyref = useRef(null);
-
-  const accountsFilteredByCurrency: Array<{
-    value: string;
-    label: string;
-  }> = accounts
-    .filter(({ currency }) => currency === record.currency)
-    .map(({ name, id }) => ({ value: id, label: name }));
+  const {
+    record,
+    categories,
+    currencyOptions,
+    accountsFilteredByCurrency,
+    categoryValue,
+    modalBodyRef,
+    setCategories,
+    setRecord,
+    selectRecordCurrency,
+    selectRecordType,
+    setRecordSelectValue,
+    setRecordInputValue,
+    clearForm,
+  } = useModalRecordState(accounts);
 
   useEffect(() => {
     const checkOutsideClick = (event: MouseEvent) => {
-      if (modalIsOpen && !modalBodyref.current?.contains(event.target)) {
+      if (modalIsOpen && !modalBodyRef.current?.contains(event.target)) {
         closeModal();
         setEditedRecord(null);
       }
@@ -106,62 +77,7 @@ const ModalFormRecord: React.FC<ModalRecordProps> = ({
         setCategories(Object.values(expenseCategories));
       }
     }
-  }, [editedRecord]);
-
-  const clearForm = (): void => {
-    setRecord({
-      id: uuidv4(),
-      accountId: accountsFilteredByCurrency[0].value,
-      currency: existingAccountsCurrencies[0].value,
-      type: recordTypes.income.value,
-      category: incomeCategories.salary.value,
-      value: 0,
-      date: DateTimeService.getFormattedTodayDate(),
-      creatingTime: 0,
-    });
-  };
-
-  const setRecordSelectValue =
-    (name: string) =>
-    (option: ExpenseCategoryItem | IncomeCategoryItem): void => {
-      setRecord({ ...record, [name]: option.value });
-    };
-
-  const setRecordInputValue =
-    (name: string) =>
-    (event: React.ChangeEvent<HTMLInputElement>): void => {
-      setRecord({ ...record, [name]: event.target.value });
-    };
-
-  const selectRecordType = (option: RecordItem): void => {
-    if (option.value === recordTypes.income.value) {
-      setCategories(Object.values(incomeCategories));
-      setRecord({
-        ...record,
-        type: option.value,
-        category: incomeCategories.salary.value,
-      });
-    } else {
-      setCategories(Object.values(expenseCategories));
-      setRecord({
-        ...record,
-        type: option.value as RecordType,
-        category: expenseCategories.clothes.value,
-      });
-    }
-  };
-
-  const selectRecordCurrency = (option: Omit<CurrencyItem, symbol>): void => {
-    const nextAcc = accounts.find(
-      (account) => account.currency === option.value
-    );
-
-    setRecord({
-      ...record,
-      currency: option.value,
-      accountId: nextAcc.id,
-    });
-  };
+  }, [editedRecord, setRecord, setCategories]);
 
   const onSubmitForm = (event: React.SyntheticEvent): void => {
     event.preventDefault();
@@ -178,21 +94,9 @@ const ModalFormRecord: React.FC<ModalRecordProps> = ({
     changeDocumentTitle('app.title.default');
   };
 
-  const currencyOptions: Array<CurrencyOptionsType> =
-    existingAccountsCurrencies.map((curr: CurrenciesType) => ({
-      value: curr.value,
-      label: Currency[curr.value].label,
-    }));
-
-  const categoryValue: IncomeCategoryItem | ExpenseCategoryItem = Object.values(
-    record.type === recordTypes.income.value
-      ? incomeCategories
-      : expenseCategories
-  ).find((category) => category.value === record.category);
-
   return (
     <Modal isOpen={modalIsOpen} ariaHideApp={false} className="modal">
-      <div className="modal-records-body" ref={modalBodyref}>
+      <div className="modal-records-body" ref={modalBodyRef}>
         <form onSubmit={onSubmitForm}>
           <h2 className="modal-header-title">
             {t('modal.record_title_header')}

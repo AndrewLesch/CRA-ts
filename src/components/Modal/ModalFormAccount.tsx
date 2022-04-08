@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import Modal from 'react-modal';
 import { Currency, accountColors } from '../../сonstants';
 import Select, { components, OptionProps } from 'react-select';
@@ -74,14 +74,21 @@ const ModalAccounts: React.FC<ModalAccountsProps> = ({
       changeDocumentTitle('app.title.default');
       document.removeEventListener('mousedown', checkOutsideClick);
     };
-  }, [accounts, modalIsOpen, setEditedAccount, setIsEditing, setModalIsOpen]);
+  }, [
+    accounts,
+    modalIsOpen,
+    setEditedAccount,
+    setIsEditing,
+    setModalIsOpen,
+    modalBodyRef,
+  ]);
 
   useEffect(() => {
     if (editedAccount) {
       setAccount(editedAccount);
       setIsEditing(true);
     }
-  }, [editedAccount, modalIsOpen, setEditedAccount, setIsEditing]);
+  }, [editedAccount, modalIsOpen, setEditedAccount, setIsEditing, setAccount]);
 
   const onSubmitForm = (event: React.SyntheticEvent): void => {
     event.preventDefault();

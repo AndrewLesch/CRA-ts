@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { AccountDto, RecordDto } from '../../../model.js';
-import { changeDocumentTitle } from '../../../utils';
+import {
+  calculateAccountsValueRemove,
+  changeDocumentTitle,
+} from '../../../utils';
 import { recordTypes } from '../../../сonstants';
 import { database } from '../../../firebase';
 import { User } from 'firebase/auth';
@@ -91,20 +94,14 @@ export const useRecordsAppState = (user: User): UseRecordsAppStateHookType => {
       ({ id }) => id === record.id
     );
 
-    if (record.type === recordTypes.income.value) {
-      accounts[currentAccIndex].value =
-        +accounts[currentAccIndex].value - +record.value;
-    } else {
-      accounts[currentAccIndex].value =
-        +accounts[currentAccIndex].value + +record.value;
-    }
+    calculateAccountsValueRemove(record, accounts, currentAccIndex);
 
     const currentRecords: Array<RecordDto> = [...records];
-    AccountsApi.setAccount(accounts[currentAccIndex]);
-    RecordsApi.deleteRecord(record);
     currentRecords.splice(deleteRecordIndex, 1);
     updateRecords(currentRecords);
     setIsEditingRecord(false);
+    AccountsApi.setAccount(accounts[currentAccIndex]);
+    RecordsApi.deleteRecord(record);
   };
 
   const onSubmitRecord = (
